@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\ConnectionHandler.cs" />
+    <Compile Include="Connection\Protocol.cs" />
     <Compile Include="Database\DatabaseGateway.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
