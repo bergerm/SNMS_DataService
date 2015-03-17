@@ -64,6 +64,10 @@
     <Compile Include="Connection\ConnectionHandler.cs" />
     <Compile Include="Connection\Protocol.cs" />
     <Compile Include="Database\DatabaseGateway.cs" />
+    <Compile Include="Handlers\GetPluginsHandler.cs" />
+    <Compile Include="Handlers\LoginMessageHandler.cs" />
+    <Compile Include="Handlers\Handler.cs" />
+    <Compile Include="Handlers\HandlerManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\QueryManager.cs" />

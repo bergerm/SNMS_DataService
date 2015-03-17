@@ -6,14 +6,18 @@ using System.Threading.Tasks;
 
 namespace SNMS_DataService.Connection
 {
-    enum ProtocolMessageType {  PROTOCOL_MESSAGE_LOGIN_REQUEST = 1,
-                                PROTOCOL_MESSAGE_LOGIN_ANSWER,
+    enum ProtocolMessageType    {   PROTOCOL_MESSAGE_LOGIN_REQUEST = 1,
+                                    PROTOCOL_MESSAGE_LOGIN_ANSWER,
     
-                                PROTOCOL_MESSAGE_GET_PLUGIN,
-                                PROTOCOL_MESSAGE_PLUGIN};
+                                    PROTOCOL_MESSAGE_GET_PLUGIN,
+                                    PROTOCOL_MESSAGE_PLUGINS_LIST
+                                }
 
     class ProtocolMessage
     {
+        public const string PROTOCOL_CONSTANT_SUCCESS_MESSAGE = "success";
+        public const string PROTOCOL_CONSTANT_FAILURE_MESSAGE = "failure";
+
         public static byte[] GetBytes(string str)
         {
             byte[] bytes = new byte[str.Length * sizeof(char)];
@@ -74,6 +78,12 @@ namespace SNMS_DataService.Connection
             m_messageSize += size;
 
             return true;
+        }
+
+        public bool AddParameter(string str)
+        {
+            byte[] arr = GetBytes(str);
+            return AddParameter(arr, str.Length);
         }
 
         public int GetParameter(ref byte[] parameter, int index)

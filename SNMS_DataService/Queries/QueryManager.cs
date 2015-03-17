@@ -8,12 +8,26 @@ namespace SNMS_DataService.Queries
 {
     class QueryManager
     {
-        public string GetPluginsQuery()
+        private QueryManager()
         {
-            return "SELECT * FROM `queries`;";
         }
 
-        public string NewPluginQuery(   string sPluginName,
+        static public string GetPluginsCountQuery()
+        {
+            return "SELECT COUNT(*) FROM `plugins`;";
+        }
+
+        static public string GetPluginsQuery()
+        {
+            return "SELECT * FROM `plugins`;";
+        }
+
+        static public string GetPluginBlobQuery(int dwPluginID)
+        {
+            return "SELECT PluginBLOB FROM `plugins` WHERE `PluginID` = " + dwPluginID + ";";
+        }
+
+        static public string NewPluginQuery(string sPluginName,
                                         string sPluginDescription,
                                         bool bPluginEnabled,
                                         string sPluginFilePath)
@@ -27,7 +41,7 @@ namespace SNMS_DataService.Queries
                     ");";
         }
 
-        public string UpdatePluginQuery(int dwPluginID, 
+        static public string UpdatePluginQuery(int dwPluginID, 
                                         string sPluginName,
                                         string sPluginDescription,
                                         bool bPluginEnabled,
@@ -41,12 +55,12 @@ namespace SNMS_DataService.Queries
                     "WHERE `PluginID` = " + dwPluginID +";";
         }
 
-        public string GetAccountsQuery(int dwPluginID)
+        static public string GetAccountsQuery(int dwPluginID)
         {
             return "SELECT * FROM `accounts` WHERE `PluginID` = " + dwPluginID + ";";
         }
 
-        public string NewAccountQuery(  int dwPluginID,
+        static public string NewAccountQuery(int dwPluginID,
                                         string sAccountName,
                                         string sAccountDescription,
                                         string sAccountUserName,
@@ -62,7 +76,7 @@ namespace SNMS_DataService.Queries
                     ");";
         }
 
-        public string UpdateAccountQuery(   int dwAccountID,
+        static public string UpdateAccountQuery(int dwAccountID,
                                             int dwPluginID,
                                             string sAccountName,
                                             string sAccountDescription,
@@ -78,12 +92,12 @@ namespace SNMS_DataService.Queries
                     "WHERE `AccountID` = " + dwAccountID + ";";
         }
 
-        public string GetConfigurationQuery(int dwAccountID)
+        static public string GetConfigurationQuery(int dwAccountID)
         {
             return "SELECT * FROM `configurations` WHERE `AccountID` = " + dwAccountID + ";";
         }
 
-        public string NewConfigurationQuery(    int dwAccountID,
+        static public string NewConfigurationQuery(int dwAccountID,
                                                 string sConfigurationName,
                                                 string sConfigurationDescription,
                                                 bool bConfigurationEnabled)
@@ -97,7 +111,7 @@ namespace SNMS_DataService.Queries
                     ");";
         }
 
-        public string UpdateConfigurationQuery( int dwConfigurationID,
+        static public string UpdateConfigurationQuery(int dwConfigurationID,
                                                 int dwAccountID,
                                                 string sConfigurationName,
                                                 string sConfigurationDescription,
@@ -111,12 +125,12 @@ namespace SNMS_DataService.Queries
                     "WHERE `ConfigurationID` = " + dwConfigurationID + ";";
         }
 
-        public string GetSequencesQuery(int dwConfigurationID)
+        static public string GetSequencesQuery(int dwConfigurationID)
         {
             return "SELECT * FROM `sequences` WHERE `ConfigurationID` = " + dwConfigurationID + ";";
         }
 
-        public string NewSequenceQuery( int dwConfigurationID,
+        static public string NewSequenceQuery(int dwConfigurationID,
                                         string sSequenceName,
                                         bool bSequenceEnabled)
         {
@@ -128,7 +142,7 @@ namespace SNMS_DataService.Queries
                     ");";
         }
 
-        public string UpdateConfigurationQuery( int dwSequenceID,
+        static public string UpdateConfigurationQuery(int dwSequenceID,
                                                 int dwConfigurationID,
                                                 string sSequenceName,
                                                 bool bSequenceEnabled)
@@ -140,12 +154,12 @@ namespace SNMS_DataService.Queries
                     "WHERE `ConfigurationID` = " + dwSequenceID + ";";
         }
 
-        public string GetTriggersQuery(int dwConfigurationID)
+        static public string GetTriggersQuery(int dwConfigurationID)
         {
             return "SELECT * FROM `triggers` WHERE `ConfigurationID` = " + dwConfigurationID + ";";
         }
 
-        public string NewTriggerQuery(  int dwConfigurationID,
+        static public string NewTriggerQuery(int dwConfigurationID,
                                         string sTriggerName,
                                         string sTriggerDescription,
                                         string sTriggerValue,
@@ -165,7 +179,7 @@ namespace SNMS_DataService.Queries
                     ");";
         }
 
-        public string UpdateTriggerQuery(   int dwTriggerID,
+        static public string UpdateTriggerQuery(int dwTriggerID,
                                             int dwConfigurationID,
                                             string sTriggerName,
                                             string sTriggerDescription,
@@ -185,12 +199,12 @@ namespace SNMS_DataService.Queries
                     "WHERE `TriggerID` = " + dwTriggerID + ";";
         }
 
-        public string GetUsersQuery()
+        static public string GetUsersQuery()
         {
             return "SELECT * FROM `users`;";
         }
 
-        public string NewUserQuery( string sUserName,
+        static public string NewUserQuery(string sUserName,
                                     string sUserHashedPassword,
                                     int dwUserTypeID,
                                     bool bUserEnableRead,
@@ -206,7 +220,7 @@ namespace SNMS_DataService.Queries
                     ");";
         }
 
-        public string UpdateUserQuery(  int dwUserID,
+        static public string UpdateUserQuery(int dwUserID,
                                         string sUserName,
                                         string sUserHashedPassword,
                                         int dwUserTypeID,
@@ -222,12 +236,12 @@ namespace SNMS_DataService.Queries
                     "WHERE `UserID` = " + dwUserID + ";";
         }
 
-        public string GetUserTypesQuery()
+        static public string GetUserTypesQuery()
         {
             return "SELECT * FROM `userTypes`;";
         }
 
-        public string NewUserTypeQuery( int dwUserTypeID,
+        static public string NewUserTypeQuery(int dwUserTypeID,
                                         string sUserTypeName )
         {
             return "INSERT INTO `usertypes`(`UserTypeID`, `UserTypeName`) " +
@@ -237,7 +251,7 @@ namespace SNMS_DataService.Queries
                     ");";
         }
 
-        public string UpdateUserQuery(  int dwUserTypeID,
+        static public string UpdateUserQuery(int dwUserTypeID,
                                         string sUserTypeName)
         {
             return "UPDATE `usertypes` SET " +
