@@ -13,23 +13,9 @@ namespace SNMS_DataService.Connection
 {
     abstract class ConnectionHandler
     {
-        static byte[] GetBytes(string str)
-        {
-            byte[] bytes = new byte[str.Length * sizeof(char)];
-            System.Buffer.BlockCopy(str.ToCharArray(), 0, bytes, 0, bytes.Length);
-            return bytes;
-        }
-
-        static string GetString(byte[] bytes)
-        {
-            char[] chars = new char[bytes.Length / sizeof(char)];
-            System.Buffer.BlockCopy(bytes, 0, chars, 0, bytes.Length);
-            return new string(chars);
-        }
-
         static void HandleServerConnection(TcpClient client, NetworkStream stream)
         {
-            byte[] res = GetBytes("ok");
+            byte[] res = ProtocolMessage.GetBytes("ok");
             stream.Write(res, 0, res.Length);
 
             int dwReadBytes = 0;
@@ -61,13 +47,13 @@ namespace SNMS_DataService.Connection
 
         static void HandleClientConnection(TcpClient client, NetworkStream stream)
         {
-            byte[] res = GetBytes("ok");
+            byte[] res = ProtocolMessage.GetBytes("ok");
             stream.Write(res, 0, res.Length);
 
             byte[] message = new byte[stream.Length];
             stream.ReadAsync(message, 0, (int)stream.Length);
 
-            string sLoginMessage = GetString(message);
+            string sLoginMessage = ProtocolMessage.GetString(message);
 
             string[] loginParameters = sLoginMessage.Split(',');
             if (loginParameters.Length != 2)
@@ -83,13 +69,13 @@ namespace SNMS_DataService.Connection
 
             if (user == null)
             {
-                byte[] result = GetBytes("-1");
+                byte[] result = ProtocolMessage.GetBytes("-1");
                 stream.Write(res, 0, result.Length);
                 return;
             }
 
             string sResponse = ((int)user.GetUserType()).ToString();
-            byte[] responseBytes = GetBytes(sResponse);
+            byte[] responseBytes = ProtocolMessage.GetBytes(sResponse);
 
             stream.Write(responseBytes, 0, responseBytes.Length);
         }
@@ -119,7 +105,7 @@ namespace SNMS_DataService.Connection
                 byte[] message = new byte[stream.Length];
                 stream.ReadAsync(message, 0, (int)stream.Length);
 
-                string sConnectionTypeMessage = GetString(message);
+                string sConnectionTypeMessage = ProtocolMessage.GetString(message);
 
                 switch (sConnectionTypeMessage)
                 {
@@ -132,7 +118,7 @@ namespace SNMS_DataService.Connection
                         break;
 
                     default:
-                        byte[] res = GetBytes("error");
+                        byte[] res = ProtocolMessage.GetBytes("error");
                         stream.Write(res, 0, res.Length);
                         return;
                 }
