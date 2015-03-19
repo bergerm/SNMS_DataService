@@ -11,7 +11,7 @@ namespace SNMS_DataService.Handlers
 {
     abstract class Handler
     {
-        abstract bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
+        virtual protected bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
         {
             return true;
         }

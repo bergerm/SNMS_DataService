@@ -17,7 +17,7 @@ namespace SNMS_DataService.Handlers
 {
     class GetUserTypesHandler
     {
-        override bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
+        virtual protected bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
         {
             ProtocolMessage responseMessage = new ProtocolMessage();
             responseMessage.SetMessageType(ProtocolMessageType.PROTOCOL_MESSAGE_USER_TYPES_LIST);

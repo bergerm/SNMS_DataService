@@ -25,7 +25,7 @@ namespace SNMS_DataService.Handlers
             m_handlerDictionary.Add(type, handler);
         }
 
-        public bool HandleMessage(ProtocolMessage message)
+        public bool HandleMessage(ProtocolMessage message, NetworkStream stream)
         {
             ProtocolMessageType type = message.GetMessageType();
 
@@ -36,7 +36,7 @@ namespace SNMS_DataService.Handlers
 
             Handler handler = m_handlerDictionary[type];
 
-            return handler.Handle(message);
+            return handler.Handle(message, stream);
         }
     }
 }

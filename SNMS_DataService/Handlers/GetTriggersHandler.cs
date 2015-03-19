@@ -15,9 +15,9 @@ using MySql.Data.MySqlClient;
 
 namespace SNMS_DataService.Handlers
 {
-    class GetTriggerTypesHandler
+    class GetTriggersHandler
     {
-        override bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
+        virtual protected bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
         {
             ProtocolMessage responseMessage = new ProtocolMessage();
             responseMessage.SetMessageType(ProtocolMessageType.PROTOCOL_MESSAGE_TRIGGERS_LIST);

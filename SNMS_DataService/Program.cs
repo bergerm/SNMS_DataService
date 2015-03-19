@@ -25,7 +25,7 @@ namespace SNMS_DataService
         {
             DatabaseGateway.DatabaseParameters parameters = new DatabaseGateway.DatabaseParameters(DB_HOST, DB_USER, DB_PW, DB_NAME);
             DatabaseGateway dbGate = DatabaseGateway.Instance(parameters);
-            QueryManager queryManager = new QueryManager();
+            //QueryManager queryManager = new QueryManager();
 
             IPAddress localAddr = IPAddress.Parse("127.0.0.1");
             TcpListener listener = new TcpListener(localAddr,TCP_PORT);
