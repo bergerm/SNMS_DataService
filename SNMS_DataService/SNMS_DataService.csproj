@@ -64,6 +64,11 @@
     <Compile Include="Connection\ConnectionHandler.cs" />
     <Compile Include="Connection\Protocol.cs" />
     <Compile Include="Database\DatabaseGateway.cs" />
+    <Compile Include="Handlers\GetTriggersHandler.cs" />
+    <Compile Include="Handlers\GetTriggerTypesHandler.cs" />
+    <Compile Include="Handlers\GetSequencesHandler.cs" />
+    <Compile Include="Handlers\GetConfigurationsHandler.cs" />
+    <Compile Include="Handlers\GetAccountsHandler.cs" />
     <Compile Include="Handlers\GetPluginsHandler.cs" />
     <Compile Include="Handlers\LoginMessageHandler.cs" />
     <Compile Include="Handlers\Handler.cs" />

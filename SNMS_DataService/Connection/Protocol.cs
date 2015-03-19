@@ -9,8 +9,26 @@ namespace SNMS_DataService.Connection
     enum ProtocolMessageType    {   PROTOCOL_MESSAGE_LOGIN_REQUEST = 1,
                                     PROTOCOL_MESSAGE_LOGIN_ANSWER,
     
-                                    PROTOCOL_MESSAGE_GET_PLUGIN,
-                                    PROTOCOL_MESSAGE_PLUGINS_LIST
+                                    PROTOCOL_MESSAGE_GET_PLUGINS,
+                                    PROTOCOL_MESSAGE_PLUGINS_LIST,
+
+                                    PROTOCOL_MESSAGE_GET_ACCOUNTS,
+                                    PROTOCOL_MESSAGE_ACCOUNTS_LIST,
+
+                                    PROTOCOL_MESSAGE_GET_CONFIGURATIONS,
+                                    PROTOCOL_MESSAGE_CONFIGURATIONS_LIST,
+
+                                    PROTOCOL_MESSAGE_GET_SEQUENCES,
+                                    PROTOCOL_MESSAGE_SEQUENCES_LIST,
+
+                                    PROTOCOL_MESSAGE_GET_TRIGGER_TYPES,
+                                    PROTOCOL_MESSAGE_TRIGGER_TYPES_LIST,
+
+                                    PROTOCOL_MESSAGE_GET_TRIGGERS,
+                                    PROTOCOL_MESSAGE_TRIGGERS_LIST,
+
+                                    PROTOCOL_MESSAGE_GET_USERS,
+                                    PROTOCOL_MESSAGE_USERS_LIST
                                 }
 
     class ProtocolMessage
