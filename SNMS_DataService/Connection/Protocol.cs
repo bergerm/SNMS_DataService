@@ -27,6 +27,9 @@ namespace SNMS_DataService.Connection
                                     PROTOCOL_MESSAGE_GET_TRIGGERS,
                                     PROTOCOL_MESSAGE_TRIGGERS_LIST,
 
+                                    PROTOCOL_MESSAGE_GET_USER_TYPES,
+                                    PROTOCOL_MESSAGE_USER_TYPES_LIST,
+
                                     PROTOCOL_MESSAGE_GET_USERS,
                                     PROTOCOL_MESSAGE_USERS_LIST
                                 }
