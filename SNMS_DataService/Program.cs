@@ -10,6 +10,7 @@ using System.Net.Sockets;
 using SNMS_DataService.Database;
 using SNMS_DataService.Queries;
 using SNMS_DataService.Connection;
+using SNMS_DataService.Handlers;
 
 namespace SNMS_DataService
 {
@@ -21,11 +22,19 @@ namespace SNMS_DataService
         const string DB_PW = "";
         const string DB_NAME = "snms_db";
 
+        static void PopulateClientHandlerManager(HandlerManager manager)
+        {
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_PLUGINS, new GetPluginsHandler());
+        }
+
         static void Main(string[] args)
         {
             DatabaseGateway.DatabaseParameters parameters = new DatabaseGateway.DatabaseParameters(DB_HOST, DB_USER, DB_PW, DB_NAME);
             DatabaseGateway dbGate = DatabaseGateway.Instance(parameters);
             //QueryManager queryManager = new QueryManager();
+
+            HandlerManager handlerManager = HandlerManager.Instance();
+            PopulateClientHandlerManager(handlerManager);
 
             IPAddress localAddr = IPAddress.Parse("127.0.0.1");
             TcpListener listener = new TcpListener(localAddr,TCP_PORT);

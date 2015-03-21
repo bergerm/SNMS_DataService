@@ -12,29 +12,61 @@ namespace SNMS_DataService.Handlers
 {
     class HandlerManager
     {
-        Dictionary<ProtocolMessageType, Handler> m_handlerDictionary;
+        private static HandlerManager instance;
+
+        Dictionary<ProtocolMessageType, Handler> m_clientHandlerDictionary;
+        Dictionary<ProtocolMessageType, Handler> m_serverHandlerDictionary;
         NetworkStream m_networkStream;
 
-        public HandlerManager()
+        private HandlerManager()
         {
-            m_handlerDictionary = new Dictionary<ProtocolMessageType,Handler>();
+            m_clientHandlerDictionary = new Dictionary<ProtocolMessageType, Handler>();
+            m_serverHandlerDictionary = new Dictionary<ProtocolMessageType, Handler>();
         }
 
-        public void RegisterHandler(ProtocolMessageType type, Handler handler)
+        public static HandlerManager Instance()
         {
-            m_handlerDictionary.Add(type, handler);
+            if (instance == null)
+            {
+                instance = new HandlerManager();
+            }
+            return instance;
         }
 
-        public bool HandleMessage(ProtocolMessage message, NetworkStream stream)
+        public void RegisterClientHandler(ProtocolMessageType type, Handler handler)
+        {
+            m_clientHandlerDictionary.Add(type, handler);
+        }
+
+        public void RegisterServerHandler(ProtocolMessageType type, Handler handler)
+        {
+            m_serverHandlerDictionary.Add(type, handler);
+        }
+
+        public bool HandleClientMessage(ProtocolMessage message, NetworkStream stream)
         {
             ProtocolMessageType type = message.GetMessageType();
 
-            if (!m_handlerDictionary.Keys.Contains(type))
+            if (!m_clientHandlerDictionary.Keys.Contains(type))
             {
                 return false;
             }
 
-            Handler handler = m_handlerDictionary[type];
+            Handler handler = m_clientHandlerDictionary[type];
+
+            return handler.Handle(message, stream);
+        }
+
+        public bool HandleServerMessage(ProtocolMessage message, NetworkStream stream)
+        {
+            ProtocolMessageType type = message.GetMessageType();
+
+            if (!m_serverHandlerDictionary.Keys.Contains(type))
+            {
+                return false;
+            }
+
+            Handler handler = m_serverHandlerDictionary[type];
 
             return handler.Handle(message, stream);
         }

@@ -15,7 +15,7 @@ using MySql.Data.MySqlClient;
 
 namespace SNMS_DataService.Handlers
 {
-    class GetAccountsHandler
+    class GetAccountsHandler : Handler
     {
         virtual protected bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
         {

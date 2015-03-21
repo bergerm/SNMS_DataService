@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SNMS_DataService.Connection
 {
-    enum ProtocolMessageType    {   PROTOCOL_MESSAGE_LOGIN_REQUEST = 1,
+    enum ProtocolMessageType    {   PROTOCOL_MESSAGE_CONNECTION = 1,
+                                    PROTOCOL_MESSAGE_CONNECTION_RESPONSE,
+        
+                                    PROTOCOL_MESSAGE_LOGIN_REQUEST,
                                     PROTOCOL_MESSAGE_LOGIN_ANSWER,
     
                                     PROTOCOL_MESSAGE_GET_PLUGINS,
@@ -128,7 +131,8 @@ namespace SNMS_DataService.Connection
                 return "";
             }
 
-            return BitConverter.ToString(array);
+            string str = GetString(array);
+            return str;
         }
     }
 
@@ -170,6 +174,7 @@ namespace SNMS_DataService.Connection
             byteCount += 4;
 
             int numOfParameters = BitConverter.ToInt32(message, byteCount);
+            byteCount += 4;
 
             for (int i = 0; i < numOfParameters; i++)
             {
