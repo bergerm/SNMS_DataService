@@ -96,9 +96,17 @@ namespace SNMS_DataService.Connection
                 return false;
             }
 
+            if (parameter.Length > size)
+            {
+                byte[] fixedParameter = parameter.Take(size).ToArray();
+                parameter = fixedParameter;
+            }
+
             m_listOfArrays.Add(parameter);
             m_listOfSizes.Add(size);
 
+            // 4 bytes for parameter size
+            m_messageSize += 4;
             m_messageSize += size;
 
             return true;
@@ -107,7 +115,7 @@ namespace SNMS_DataService.Connection
         public bool AddParameter(string str)
         {
             byte[] arr = GetBytes(str);
-            return AddParameter(arr, str.Length);
+            return AddParameter(arr, arr.Length);
         }
 
         public int GetParameter(ref byte[] parameter, int index)

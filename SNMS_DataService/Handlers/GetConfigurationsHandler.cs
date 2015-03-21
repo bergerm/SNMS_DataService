@@ -17,7 +17,7 @@ namespace SNMS_DataService.Handlers
 {
     class GetConfigurationsHandler : Handler
     {
-        virtual protected bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
+        override protected bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
         {
             ProtocolMessage responseMessage = new ProtocolMessage();
             responseMessage.SetMessageType(ProtocolMessageType.PROTOCOL_MESSAGE_CONFIGURATIONS_LIST);

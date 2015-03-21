@@ -17,7 +17,7 @@ namespace SNMS_DataService.Handlers
 {
     class GetPluginsHandler : Handler
     {
-        virtual protected bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
+        override protected bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
         {
             ProtocolMessage responseMessage = new ProtocolMessage();
             responseMessage.SetMessageType(ProtocolMessageType.PROTOCOL_MESSAGE_PLUGINS_LIST);
@@ -26,13 +26,23 @@ namespace SNMS_DataService.Handlers
 
             DatabaseGateway dbGateway = DatabaseGateway.Instance(null);
             MySqlDataReader reader = dbGateway.ReadQuery(QueryManager.GetPluginsCountQuery());
+            if (reader == null)
+            {
+                return false;
+            }
             
             // Parameter 1 - number of plugins
             reader.Read();
             int dwNumOfPlugins = Int32.Parse(reader[0].ToString());
             responseMessage.AddParameter(BitConverter.GetBytes(dwNumOfPlugins),4);
 
+            reader.Close();
+
             reader = dbGateway.ReadQuery(QueryManager.GetPluginsQuery());
+            if (reader == null)
+            {
+                return false;
+            }
 
             while (reader.Read())
             {
@@ -79,8 +89,11 @@ namespace SNMS_DataService.Handlers
                 
             }
 
-            byte[] response = Protocol.CraftMessage(responseMessage);
-            stream.Write(response, 0, response.Length);
+            //byte[] response = Protocol.CraftMessage(responseMessage);
+            //stream.Write(response, 0, response.Length);
+            ConnectionHandler.SendMessage(stream, responseMessage);
+
+            reader.Close();
 
             return true;
         }
