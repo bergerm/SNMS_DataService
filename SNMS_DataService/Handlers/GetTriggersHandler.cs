@@ -59,8 +59,7 @@ namespace SNMS_DataService.Handlers
                 responseMessage.AddParameter(BitConverter.GetBytes(dwTriggerEnabled), 1);  
             }
 
-            byte[] response = Protocol.CraftMessage(responseMessage);
-            stream.Write(response, 0, response.Length);
+            ConnectionHandler.SendMessage(stream, responseMessage);
 
             return true;
         }

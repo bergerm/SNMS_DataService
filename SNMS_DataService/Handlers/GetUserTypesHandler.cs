@@ -42,8 +42,7 @@ namespace SNMS_DataService.Handlers
                 responseMessage.AddParameter(sUserTypeName);        
             }
 
-            byte[] response = Protocol.CraftMessage(responseMessage);
-            stream.Write(response, 0, response.Length);
+            ConnectionHandler.SendMessage(stream, responseMessage);
 
             return true;
         }
