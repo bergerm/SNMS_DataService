@@ -36,6 +36,8 @@ namespace SNMS_DataService.Handlers
             int dwNumOfPlugins = Int32.Parse(reader[0].ToString());
             responseMessage.AddParameter(BitConverter.GetBytes(dwNumOfPlugins),4);
 
+            reader.Close();
+
             reader = dbGateway.ReadQuery(QueryManager.GetConfigurationQuery(dwAccountID));
 
             while (reader.Read())
@@ -49,6 +51,8 @@ namespace SNMS_DataService.Handlers
                 int dwConfigurationEnabled = byte.Parse(reader["ConfigurationEnabled"].ToString());
                 responseMessage.AddParameter(BitConverter.GetBytes(dwConfigurationId), 1);         
             }
+
+            reader.Close();
 
             ConnectionHandler.SendMessage(stream, responseMessage);
 

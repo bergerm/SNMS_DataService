@@ -32,6 +32,8 @@ namespace SNMS_DataService.Handlers
             int dwNumOfUserTypes = Int32.Parse(reader[0].ToString());
             responseMessage.AddParameter(BitConverter.GetBytes(dwNumOfUserTypes), 4);
 
+            reader.Close();
+
             reader = dbGateway.ReadQuery(QueryManager.GetUserTypesQuery());
 
             while (reader.Read())
@@ -41,6 +43,8 @@ namespace SNMS_DataService.Handlers
                 string sUserTypeName = reader["UserTypeName"].ToString();
                 responseMessage.AddParameter(sUserTypeName);        
             }
+
+            reader.Close();
 
             ConnectionHandler.SendMessage(stream, responseMessage);
 

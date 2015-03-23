@@ -36,6 +36,8 @@ namespace SNMS_DataService.Handlers
             int dwNumOfTriggerType = Int32.Parse(reader[0].ToString());
             responseMessage.AddParameter(BitConverter.GetBytes(dwNumOfTriggerType), 4);
 
+            reader.Close();
+
             reader = dbGateway.ReadQuery(QueryManager.GetTriggerTypesQuery(dwConfigurationID));
 
             while (reader.Read())
@@ -47,6 +49,8 @@ namespace SNMS_DataService.Handlers
                 string sTriggerTypeDescription = reader["TriggerTypeDescription"].ToString();
                 responseMessage.AddParameter(sTriggerTypeDescription); 
             }
+
+            reader.Close();
 
             ConnectionHandler.SendMessage(stream, responseMessage);
 

@@ -32,6 +32,8 @@ namespace SNMS_DataService.Handlers
             int dwNumOfUsers = Int32.Parse(reader[0].ToString());
             responseMessage.AddParameter(BitConverter.GetBytes(dwNumOfUsers), 4);
 
+            reader.Close();
+
             reader = dbGateway.ReadQuery(QueryManager.GetUsersQuery());
 
             while (reader.Read())
@@ -49,6 +51,8 @@ namespace SNMS_DataService.Handlers
                 int userEnableWrite = byte.Parse(reader["UserEnableWrite"].ToString());
                 responseMessage.AddParameter(BitConverter.GetBytes(userEnableWrite), 1);
             }
+
+            reader.Close();
 
             ConnectionHandler.SendMessage(stream, responseMessage);
 

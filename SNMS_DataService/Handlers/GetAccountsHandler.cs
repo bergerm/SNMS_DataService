@@ -36,6 +36,8 @@ namespace SNMS_DataService.Handlers
             int dwNumOfPlugins = Int32.Parse(reader[0].ToString());
             responseMessage.AddParameter(BitConverter.GetBytes(dwNumOfPlugins),4);
 
+            reader.Close();
+
             reader = dbGateway.ReadQuery(QueryManager.GetAccountsQuery(dwPluginID));
 
             while (reader.Read())
@@ -51,6 +53,8 @@ namespace SNMS_DataService.Handlers
                 string sAccountPassword = reader["AccountPassword"].ToString();
                 responseMessage.AddParameter(sAccountPassword);                
             }
+
+            reader.Close();
 
             ConnectionHandler.SendMessage(stream, responseMessage);
 
