@@ -26,6 +26,8 @@ namespace SNMS_DataService
         {
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_PLUGINS, new GetPluginsHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_ACCOUNTS, new GetAccountsHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_CONFIGURATIONS, new GetConfigurationsHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_SEQUENCES, new GetSequencesHandler());
         }
 
         static void Main(string[] args)

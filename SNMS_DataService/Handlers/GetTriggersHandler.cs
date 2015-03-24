@@ -24,12 +24,9 @@ namespace SNMS_DataService.Handlers
 
             UsersDictionary usersDictionary = UsersDictionary.Instance();
 
-            byte[] intBuffer = new byte[4];
-            message.GetParameter(ref intBuffer, 0);
-            int dwConfigurationID = BitConverter.ToInt32(intBuffer, 0);
+            int dwConfigurationID = message.GetParameterAsInt(0);
 
-            message.GetParameter(ref intBuffer, 1);
-            int dwTriggerTypeID = BitConverter.ToInt32(intBuffer, 0);
+            int dwTriggerTypeID = message.GetParameterAsInt(1);
 
             DatabaseGateway dbGateway = DatabaseGateway.Instance(null);
             MySqlDataReader reader = dbGateway.ReadQuery(QueryManager.GetTriggersCountQuery(dwConfigurationID, dwTriggerTypeID));
@@ -46,7 +43,7 @@ namespace SNMS_DataService.Handlers
             while (reader.Read())
             {
                 int dwTriggerId = Int32.Parse(reader["TriggerID"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwTriggerId), 4);
+                responseMessage.AddParameter(dwTriggerId);
                 string sTriggerName = reader["TriggerName"].ToString();
                 responseMessage.AddParameter(sTriggerName);
                 string sTriggerDescription = reader["TriggerDescription"].ToString();
@@ -54,11 +51,11 @@ namespace SNMS_DataService.Handlers
                 string sTriggerValue = reader["TriggerValue"].ToString();
                 responseMessage.AddParameter(sTriggerValue);
                 int dwReactionSequenceId = Int32.Parse(reader["ReactionSequenceID"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwReactionSequenceId), 4);
+                responseMessage.AddParameter(dwReactionSequenceId);
                 string sReactionValue = reader["ReactionValue"].ToString();
                 responseMessage.AddParameter(sReactionValue);
                 int dwTriggerEnabled = byte.Parse(reader["TriggerEnabled"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwTriggerEnabled), 1);  
+                responseMessage.AddParameter((dwTriggerEnabled != 0)?1:0);  
             }
 
             reader.Close();

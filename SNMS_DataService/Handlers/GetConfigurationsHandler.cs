@@ -24,9 +24,7 @@ namespace SNMS_DataService.Handlers
 
             UsersDictionary usersDictionary = UsersDictionary.Instance();
 
-            byte[] intBuffer = new byte[4];
-            message.GetParameter(ref intBuffer, 0);
-            int dwAccountID = BitConverter.ToInt32(intBuffer, 0);
+            int dwAccountID = message.GetParameterAsInt(0);
 
             DatabaseGateway dbGateway = DatabaseGateway.Instance(null);
             MySqlDataReader reader = dbGateway.ReadQuery(QueryManager.GetConfigurationCountQuery(dwAccountID));
@@ -43,13 +41,13 @@ namespace SNMS_DataService.Handlers
             while (reader.Read())
             {
                 int dwConfigurationId = Int32.Parse(reader["ConfigurationID"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwConfigurationId), 4);
+                responseMessage.AddParameter(dwConfigurationId);
                 string sConfigurationName = reader["ConfigurationName"].ToString();
                 responseMessage.AddParameter(sConfigurationName);
                 string sConfigurationDesc = reader["ConfigurationDescription"].ToString();
                 responseMessage.AddParameter(sConfigurationDesc);
                 int dwConfigurationEnabled = byte.Parse(reader["ConfigurationEnabled"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwConfigurationId), 1);         
+                responseMessage.AddParameter((dwConfigurationEnabled != 0) ? true : false);         
             }
 
             reader.Close();

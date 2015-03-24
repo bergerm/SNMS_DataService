@@ -24,9 +24,7 @@ namespace SNMS_DataService.Handlers
 
             UsersDictionary usersDictionary = UsersDictionary.Instance();
 
-            byte[] intBuffer = new byte[4];
-            message.GetParameter(ref intBuffer, 0);
-            int dwConfigurationID = BitConverter.ToInt32(intBuffer, 0);
+            int dwConfigurationID = message.GetParameterAsInt(0);
 
             DatabaseGateway dbGateway = DatabaseGateway.Instance(null);
             MySqlDataReader reader = dbGateway.ReadQuery(QueryManager.GetSequencesCountQuery(dwConfigurationID));
@@ -43,11 +41,11 @@ namespace SNMS_DataService.Handlers
             while (reader.Read())
             {
                 int dwSequenceId = Int32.Parse(reader["SequenceID"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwSequenceId), 4);
+                responseMessage.AddParameter(dwSequenceId);
                 string sSequenceName = reader["SequenceName"].ToString();
                 responseMessage.AddParameter(sSequenceName);
-                int dwSequenceEnabled = byte.Parse(reader["ConfigurationEnabled"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwSequenceEnabled), 1);         
+                int dwSequenceEnabled = byte.Parse(reader["SequenceEnabled"].ToString());
+                responseMessage.AddParameter((dwSequenceEnabled != 0) ? true : false);         
             }
 
             reader.Close();
