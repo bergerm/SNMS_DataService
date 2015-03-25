@@ -204,12 +204,12 @@ namespace SNMS_DataService.Queries
 
         static public string GetTriggersCountQuery(int dwConfigurationID, int dwTriggerTypeID)
         {
-            return "SELECT COUNT(*) FROM `triggers` WHERE `ConfigurationID` = " + dwConfigurationID + "AND `TriggerTypeID` = " + dwTriggerTypeID + ";";
+            return "SELECT COUNT(*) FROM `triggers` WHERE `ConfigurationID` = " + dwConfigurationID + " AND `TriggerTypeID` = " + dwTriggerTypeID + ";";
         }
 
         static public string GetTriggersQuery(int dwConfigurationID, int dwTriggerTypeID)
         {
-            return "SELECT * FROM `triggers` WHERE `ConfigurationID` = " + dwConfigurationID + "AND `TriggerTypeID` = " + dwTriggerTypeID + ";";
+            return "SELECT * FROM `triggers` WHERE `ConfigurationID` = " + dwConfigurationID + " AND `TriggerTypeID` = " + dwTriggerTypeID + ";";
         }
 
         static public string NewTriggerQuery(int dwConfigurationID,

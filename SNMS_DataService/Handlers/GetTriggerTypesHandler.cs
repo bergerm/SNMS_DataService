@@ -24,9 +24,7 @@ namespace SNMS_DataService.Handlers
 
             UsersDictionary usersDictionary = UsersDictionary.Instance();
 
-            byte[] intBuffer = new byte[4];
-            message.GetParameter(ref intBuffer, 0);
-            int dwConfigurationID = BitConverter.ToInt32(intBuffer, 0);
+            int dwConfigurationID = message.GetParameterAsInt(0);
 
             DatabaseGateway dbGateway = DatabaseGateway.Instance(null);
             MySqlDataReader reader = dbGateway.ReadQuery(QueryManager.GetTriggerTypesCountQuery(dwConfigurationID));
@@ -34,7 +32,7 @@ namespace SNMS_DataService.Handlers
             // Parameter 1 - number of TriggerType
             reader.Read();
             int dwNumOfTriggerType = Int32.Parse(reader[0].ToString());
-            responseMessage.AddParameter(BitConverter.GetBytes(dwNumOfTriggerType), 4);
+            responseMessage.AddParameter(dwNumOfTriggerType);
 
             reader.Close();
 
@@ -43,7 +41,7 @@ namespace SNMS_DataService.Handlers
             while (reader.Read())
             {
                 int dwTriggerTypeId = Int32.Parse(reader["TriggerTypeID"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwTriggerTypeId), 4);
+                responseMessage.AddParameter(dwTriggerTypeId);
                 string sTriggerTypeName = reader["TriggerTypeName"].ToString();
                 responseMessage.AddParameter(sTriggerTypeName);
                 string sTriggerTypeDescription = reader["TriggerTypeDescription"].ToString();

@@ -34,7 +34,7 @@ namespace SNMS_DataService.Handlers
             // Parameter 1 - number of Trigger
             reader.Read();
             int dwNumOfTrigger = Int32.Parse(reader[0].ToString());
-            responseMessage.AddParameter(BitConverter.GetBytes(dwNumOfTrigger), 4);
+            responseMessage.AddParameter(dwNumOfTrigger);
 
             reader.Close();
 

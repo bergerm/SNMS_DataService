@@ -245,6 +245,7 @@ namespace SNMS_DataService.Connection
                 byte[] tempParameter = new byte[parameterSize];
                 Array.Copy(message, byteCount, tempParameter, 0, parameterSize);
                 parsedMessage.AddParameter(tempParameter, parameterSize);
+                byteCount += parameterSize;
             }
 
             return parsedMessage;
