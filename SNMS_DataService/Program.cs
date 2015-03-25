@@ -30,6 +30,8 @@ namespace SNMS_DataService
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_SEQUENCES, new GetSequencesHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_TRIGGER_TYPES, new GetTriggerTypesHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_TRIGGERS, new GetTriggersHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USER_TYPES, new GetUserTypesHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USERS, new GetUsersHandler());
         }
 
         static void Main(string[] args)

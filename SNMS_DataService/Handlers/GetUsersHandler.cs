@@ -30,7 +30,7 @@ namespace SNMS_DataService.Handlers
             // Parameter 1 - number of Users
             reader.Read();
             int dwNumOfUsers = Int32.Parse(reader[0].ToString());
-            responseMessage.AddParameter(BitConverter.GetBytes(dwNumOfUsers), 4);
+            responseMessage.AddParameter(dwNumOfUsers);
 
             reader.Close();
 
@@ -39,17 +39,17 @@ namespace SNMS_DataService.Handlers
             while (reader.Read())
             {
                 int dwUserId = Int32.Parse(reader["UserID"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwUserId), 4);
+                responseMessage.AddParameter(dwUserId);
                 string sUserName = reader["UserName"].ToString();
                 responseMessage.AddParameter(sUserName);
-                string sHashedPassword = reader["UserHashedPassword"].ToString();
-                responseMessage.AddParameter(sHashedPassword);
+                //string sHashedPassword = reader["UserHashedPassword"].ToString();
+                //responseMessage.AddParameter(sHashedPassword);
                 int dwUserTypeId = Int32.Parse(reader["UserTypeID"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwUserTypeId), 4);
+                responseMessage.AddParameter(dwUserTypeId);
                 byte userEnableRead = byte.Parse(reader["UserEnableRead"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(userEnableRead), 1);
+                responseMessage.AddParameter((userEnableRead==1)?true:false);
                 int userEnableWrite = byte.Parse(reader["UserEnableWrite"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(userEnableWrite), 1);
+                responseMessage.AddParameter((userEnableWrite == 1) ? true : false);
             }
 
             reader.Close();

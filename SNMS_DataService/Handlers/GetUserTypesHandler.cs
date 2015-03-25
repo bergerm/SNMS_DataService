@@ -30,7 +30,7 @@ namespace SNMS_DataService.Handlers
             // Parameter 1 - number of UserTypes
             reader.Read();
             int dwNumOfUserTypes = Int32.Parse(reader[0].ToString());
-            responseMessage.AddParameter(BitConverter.GetBytes(dwNumOfUserTypes), 4);
+            responseMessage.AddParameter(dwNumOfUserTypes);
 
             reader.Close();
 
@@ -39,7 +39,7 @@ namespace SNMS_DataService.Handlers
             while (reader.Read())
             {
                 int dwUserTypeId = Int32.Parse(reader["UserTypeID"].ToString());
-                responseMessage.AddParameter(BitConverter.GetBytes(dwUserTypeId), 4);
+                responseMessage.AddParameter(dwUserTypeId);
                 string sUserTypeName = reader["UserTypeName"].ToString();
                 responseMessage.AddParameter(sUserTypeName);        
             }
