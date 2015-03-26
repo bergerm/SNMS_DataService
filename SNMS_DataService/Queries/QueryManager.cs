@@ -12,6 +12,11 @@ namespace SNMS_DataService.Queries
         {
         }
 
+        static public string GetLastInsertID()
+        {
+            return "SELECT last_insert_id();";
+        }
+
         static public string GetPluginsCountQuery()
         {
             return "SELECT COUNT(*) FROM `plugins`;";
@@ -22,9 +27,9 @@ namespace SNMS_DataService.Queries
             return "SELECT * FROM `plugins`;";
         }
 
-        static public string GetPluginBlobQuery(int dwPluginID)
+        static public string GetSpecificPluginQuery(int dwPluginID)
         {
-            return "SELECT PluginBLOB FROM `plugins` WHERE `PluginID` = " + dwPluginID + ";";
+            return "SELECT * FROM `plugins` WHERE `PluginID` = " + dwPluginID + ";";
         }
 
         static public string NewPluginQuery(string sPluginName,
@@ -65,19 +70,24 @@ namespace SNMS_DataService.Queries
             return "SELECT * FROM `accounts` WHERE `PluginID` = " + dwPluginID + ";";
         }
 
+        static public string GetSpecificAccountQuery(int dwAccountID)
+        {
+            return "SELECT * FROM `accounts` WHERE `AccountID` = " + dwAccountID + ";";
+        }
+
         static public string NewAccountQuery(int dwPluginID,
                                         string sAccountName,
                                         string sAccountDescription,
                                         string sAccountUserName,
                                         string sAccountPassword)
         {
-            return "INSERT INTO `accounts`(`AccountName`, `AccountDescription`, `AccountUserName`, `AccountPassword`) " +
+            return "INSERT INTO `accounts`(`PluginID`, `AccountName`, `AccountDescription`, `AccountUserName`, `AccountPassword`) " +
                     "VALUES ( " +
-                    dwPluginID +
+                    dwPluginID + ", " +
                     "'" + sAccountName + "', " +
                     "'" + sAccountDescription + "', " +
                     "'" + sAccountUserName + "', " +
-                    "'" + sAccountPassword + "'," +
+                    "'" + sAccountPassword + "'" +
                     ");";
         }
 

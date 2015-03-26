@@ -32,6 +32,8 @@ namespace SNMS_DataService
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_TRIGGERS, new GetTriggersHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USER_TYPES, new GetUserTypesHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USERS, new GetUsersHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_NEW_ACCOUNT, new NewAccountHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_ACCOUNT, new UpdateAccountHandler());
         }
 
         static void Main(string[] args)
