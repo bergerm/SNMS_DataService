@@ -117,16 +117,21 @@ namespace SNMS_DataService.Queries
             return "SELECT * FROM `configurations` WHERE `AccountID` = " + dwAccountID + ";";
         }
 
+        static public string GetSpecificConfigurationQuery(int dwConfigurationID)
+        {
+            return "SELECT * FROM `configurations` WHERE `ConfigurationID` = " + dwConfigurationID + ";";
+        }
+
         static public string NewConfigurationQuery(int dwAccountID,
                                                 string sConfigurationName,
                                                 string sConfigurationDescription,
                                                 bool bConfigurationEnabled)
         {
-            return "INSERT INTO `configurations`(`AccountID`, `ConfigurationName`, `ConfigurationDescription`, `ConfiguratonEnabled`) " +
+            return "INSERT INTO `configurations`(`AccountID`, `ConfigurationName`, `ConfigurationDescription`, `ConfigurationEnabled`) " +
                     "VALUES ( " +
                     dwAccountID + ", " +
-                    "'" + sConfigurationName + ", " +
-                    "'" + sConfigurationDescription + ", " +
+                    "'" + sConfigurationName + "', " +
+                    "'" + sConfigurationDescription + "', " +
                     ((bConfigurationEnabled) ? 1 : 0) +
                     ");";
         }
@@ -141,42 +146,64 @@ namespace SNMS_DataService.Queries
                     "`AccountID` = " + dwAccountID + ", " +
                     "`ConfigurationName` = '" + sConfigurationName + "', " +
                     "`ConfigurationDescription` = '" + sConfigurationDescription + "', " +
-                    "`ConfiguratonEnabled` = " + ((bConfigurationEnabled) ? 1 : 0) + " " +
+                    "`ConfigurationEnabled` = " + ((bConfigurationEnabled) ? 1 : 0) + " " +
                     "WHERE `ConfigurationID` = " + dwConfigurationID + ";";
         }
 
         static public string GetSequencesCountQuery(int dwConfigurationID)
         {
-            return "SELECT COUNT(*) FROM `sequences` WHERE `ConfigurationID` = " + dwConfigurationID + ";";
+            return "SELECT COUNT(*) FROM `configurationsequences` WHERE `ConfigurationID` = " + dwConfigurationID + ";";
         }
 
         static public string GetSequencesQuery(int dwConfigurationID)
         {
-            return "SELECT * FROM `sequences` WHERE `ConfigurationID` = " + dwConfigurationID + ";";
+            return "SELECT sequences.SequenceID, sequences.SequenceName, configurationsequences.SequenceEnabled FROM `sequences` LEFT JOIN `configurationsequences` ON sequences.SequenceID = configurationsequences.SequenceID WHERE configurationsequences.ConfigurationID = " + dwConfigurationID + ";";
         }
 
-        static public string NewSequenceQuery(int dwConfigurationID,
-                                        string sSequenceName,
-                                        bool bSequenceEnabled)
+        static public string GetSequencesForPluginQuery(int dwPluginID)
         {
-            return "INSERT INTO `sequences`(`ConfigurationID`, `SequenceName`, `SequenceEnabled`) " +
+            return "SELECT * FROM `sequences` WHERE `PluginID` = " + dwPluginID + ";";
+        }
+
+        static public string NewSequenceQuery(int dwPluginID,
+                                        string sSequenceName)
+        {
+            return "INSERT INTO `sequences`(`PluginID`, `SequenceName`) " +
                     "VALUES ( " +
-                    dwConfigurationID + ", " +
-                    "'" + sSequenceName + ", " +
-                    ((bSequenceEnabled) ? 1 : 0) +
+                    dwPluginID + ", " +
+                    "'" + sSequenceName + "' " +
                     ");";
         }
 
         static public string UpdateSequenceQuery(int dwSequenceID,
-                                                int dwConfigurationID,
-                                                string sSequenceName,
-                                                bool bSequenceEnabled)
+                                                int dwPluginID,
+                                                string sSequenceName)
         {
             return "UPDATE `sequences` SET " +
-                    "`ConfigurationID` = " + dwConfigurationID + ", " +
-                    "`SequenceName` = '" + sSequenceName + "', " +
-                    "`SequenceEnabled` = " + ((bSequenceEnabled) ? 1 : 0) + " " +
+                    "`PluginID` = " + dwPluginID + ", " +
+                    "`SequenceName` = '" + sSequenceName + "' " +
                     "WHERE `ConfigurationID` = " + dwSequenceID + ";";
+        }
+
+        static public string NewConfigurationSequenceQuery( int dwConfigurationID,
+                                                            int dwSequenceID,
+                                                            bool bEnabled)
+        {
+            return "INSERT INTO `configurationsequences`(`ConfigurationID`, `SequenceID`, `SequenceEnabled`) " +
+                    "VALUES ( " +
+                    dwConfigurationID + ", " +
+                    dwSequenceID + ", " +
+                    ((bEnabled) ? 1 : 0) + " " +
+                    ");";
+        }
+
+        static public string UpdateConfigurationSequenceQuery(int dwSequenceID,
+                                                                int dwConfigurationID,
+                                                                bool bEnabled)
+        {
+            return "UPDATE `configurationsequences` SET " +
+                    "`SequenceEnabled` = " + ((bEnabled) ? 1 : 0) + " " +
+                    "WHERE `ConfigurationID` = " + dwConfigurationID + " AND `SequenceID` = " + dwSequenceID + ";";
         }
 
         static public string GetTriggerTypesCountQuery(int dwConfigurationID)
