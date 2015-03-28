@@ -25,24 +25,38 @@ namespace SNMS_DataService
         static void PopulateClientHandlerManager(HandlerManager manager)
         {
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_PLUGINS, new GetPluginsHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_PLUGIN, new DeletePluginHandler());
+
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_ACCOUNTS, new GetAccountsHandler());
-            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_CONFIGURATIONS, new GetConfigurationsHandler());
-            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_SEQUENCES, new GetSequencesHandler());
-            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_TRIGGER_TYPES, new GetTriggerTypesHandler());
-            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_TRIGGERS, new GetTriggersHandler());
-            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USER_TYPES, new GetUserTypesHandler());
-            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USERS, new GetUsersHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_NEW_ACCOUNT, new NewAccountHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_ACCOUNT, new UpdateAccountHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_ACCOUNT, new DeleteAccountHandler());
+
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_CONFIGURATIONS, new GetConfigurationsHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_NEW_CONFIGURATION, new NewConfigurationHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_CONFIGURATION, new UpdateConfigurationHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_CONFIGURATION, new DeleteConfigurationHandler());
+
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_SEQUENCES, new GetSequencesHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_SEQUENCE, new UpdateSequenceHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_SEQUENCE, new DeleteSequenceHandler());
+
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_TRIGGER_TYPES, new GetTriggerTypesHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_NEW_TRIGGER_TYPE, new NewTriggerTypeHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_TRIGGER_TYPE, new UpdateTriggerTypeHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_TRIGGER_TYPE, new DeleteTriggerTypeHandler());
+
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_TRIGGERS, new GetTriggersHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_NEW_TRIGGER, new NewTriggerHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_TRIGGER, new UpdateTriggerHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_TRIGGER, new DeleteTriggerHandler());
+
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USER_TYPES, new GetUserTypesHandler());
+
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USERS, new GetUsersHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_NEW_USER, new NewUserHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_USER, new UpdateUserHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_USER, new DeleteUserHandler());
         }
 
         static void Main(string[] args)

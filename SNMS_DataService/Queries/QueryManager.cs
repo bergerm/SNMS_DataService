@@ -377,5 +377,45 @@ namespace SNMS_DataService.Queries
                     "`UserTypeName` = '" + sUserTypeName + "', " +
                     "WHERE `UserTypeID` = " + dwUserTypeID + ";";
         }
+
+        static public string DeleteAccountQuery(int dwAccountID)
+        {
+            return "DELETE FROM `accounts` WHERE `AccountID` = " + dwAccountID + ";";
+        }
+
+        static public string DeleteConfigurationQuery(int dwConfigurationID)
+        {
+            return "DELETE FROM `configurations` WHERE `ConfigurationID` = " + dwConfigurationID + ";";
+        }
+
+        static public string DeletePluginQuery(int dwPluginID)
+        {
+            return "DELETE FROM `plugins` WHERE `PluginID` = " + dwPluginID + ";";
+        }
+
+        static public string DeleteSequenceQuery(int dwSequenceID)
+        {
+            return "DELETE FROM `sequences` WHERE `SequenceID` = " + dwSequenceID + ";";
+        }
+
+        static public string DeleteTriggerTypeQuery(int dwTriggerTypeID)
+        {
+            return "DELETE FROM `triggertypes` WHERE `TriggerTypeID` = " + dwTriggerTypeID + ";";
+        }
+
+        static public string DeleteTriggerQuery(int dwTriggerID)
+        {
+            return "DELETE FROM `triggers` WHERE `TriggerID` = " + dwTriggerID + ";";
+        }
+
+        static public string DeleteUserTypeQuery(int dwUserTypeID)
+        {
+            return "DELETE FROM `usertypes` WHERE `UserTypeID` = " + dwUserTypeID + ";";
+        }
+
+        static public string DeleteUserQuery(int dwUserID)
+        {
+            return "DELETE FROM `users` WHERE `UserID` = " + dwUserID + ";";
+        }
     }
 }

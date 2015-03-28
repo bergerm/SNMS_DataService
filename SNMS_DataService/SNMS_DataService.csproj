@@ -64,6 +64,14 @@
     <Compile Include="Connection\ConnectionHandler.cs" />
     <Compile Include="Connection\Protocol.cs" />
     <Compile Include="Database\DatabaseGateway.cs" />
+    <Compile Include="Handlers\DeleteUserTypeHandler.cs" />
+    <Compile Include="Handlers\DeleteUserHandler.cs" />
+    <Compile Include="Handlers\DeleteTriggerHandler.cs" />
+    <Compile Include="Handlers\DeleteTriggerTypeHandler.cs" />
+    <Compile Include="Handlers\DeleteSequenceHandler.cs" />
+    <Compile Include="Handlers\DeletePluginHandler.cs" />
+    <Compile Include="Handlers\DeleteConfigurationHandler.cs" />
+    <Compile Include="Handlers\DeleteAccountHandler.cs" />
     <Compile Include="Handlers\UpdateUserHandler.cs" />
     <Compile Include="Handlers\NewUserHandler.cs" />
     <Compile Include="Handlers\UpdateTriggerHandler.cs" />
@@ -96,7 +104,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="snms_db.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
