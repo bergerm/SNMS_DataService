@@ -42,8 +42,8 @@ namespace SNMS_DataService.Handlers
                 responseMessage.AddParameter(dwUserId);
                 string sUserName = reader["UserName"].ToString();
                 responseMessage.AddParameter(sUserName);
-                //string sHashedPassword = reader["UserHashedPassword"].ToString();
-                //responseMessage.AddParameter(sHashedPassword);
+                string sHashedPassword = reader["UserHashedPassword"].ToString();
+                responseMessage.AddParameter(sHashedPassword);
                 int dwUserTypeId = Int32.Parse(reader["UserTypeID"].ToString());
                 responseMessage.AddParameter(dwUserTypeId);
                 byte userEnableRead = byte.Parse(reader["UserEnableRead"].ToString());

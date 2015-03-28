@@ -216,6 +216,11 @@ namespace SNMS_DataService.Queries
             return "SELECT * FROM `triggertypes` WHERE `ConfigurationID` = " + dwConfigurationID + ";";
         }
 
+        static public string GetSpecificTriggerTypesQuery(int dwTriggerTypesID)
+        {
+            return "SELECT * FROM `triggertypes` WHERE `TriggerTypeID` = " + dwTriggerTypesID + ";";
+        }
+
         static public string NewTriggeTypesQuery(int dwConfigurationID,
                                         string sTriggerTypeName,
                                         string sTriggerTypeDescription)
@@ -224,7 +229,7 @@ namespace SNMS_DataService.Queries
                     "VALUES ( " +
                     dwConfigurationID + ", " +
                     "'" + sTriggerTypeName + "', " +
-                    "'" + sTriggerTypeDescription + "', " +
+                    "'" + sTriggerTypeDescription + "' " +
                     ");";
         }
 
@@ -235,8 +240,8 @@ namespace SNMS_DataService.Queries
         {
             return "UPDATE `triggertypes` SET " +
                     "`ConfigurationID` = " + dwConfigurationID + ", " +
-                    "`TriggerName` = '" + sTriggerTypeName + "', " +
-                    "`TriggerDescription` = '" + sTriggerTypeDescription + ";";
+                    "`TriggerTypeName` = '" + sTriggerTypeName + "', " +
+                    "`TriggerTypeDescription` = '" + sTriggerTypeDescription + "';";
         }
 
         static public string GetTriggersCountQuery(int dwConfigurationID, int dwTriggerTypeID)
@@ -249,7 +254,13 @@ namespace SNMS_DataService.Queries
             return "SELECT * FROM `triggers` WHERE `ConfigurationID` = " + dwConfigurationID + " AND `TriggerTypeID` = " + dwTriggerTypeID + ";";
         }
 
+        static public string GetSpecificTriggerQuery(int dwTriggerID)
+        {
+            return "SELECT * FROM `triggers` WHERE `TriggerID` = " + dwTriggerID + ";";
+        }
+
         static public string NewTriggerQuery(int dwConfigurationID,
+                                        int dwTriggerTypeID,
                                         string sTriggerName,
                                         string sTriggerDescription,
                                         string sTriggerValue,
@@ -257,9 +268,10 @@ namespace SNMS_DataService.Queries
                                         string sReactionValue,
                                         bool bTriggerEnabled)
         {
-            return "INSERT INTO `triggers`(`ConfigurationID`, `TriggerName`, `TriggerDescription`,`TriggerValue`, `ReactionSequenceID`, `ReactionValue`,`TriggerEnabled`) " +
+            return "INSERT INTO `triggers`(`ConfigurationID`, `TriggerTypeID`, `TriggerName`, `TriggerDescription`,`TriggerValue`, `ReactionSequenceID`, `ReactionValue`,`TriggerEnabled`) " +
                     "VALUES ( " +
                     dwConfigurationID + ", " +
+                    dwTriggerTypeID + ", " +
                     "'" + sTriggerName + "', " +
                     "'" + sTriggerDescription + "', " +
                     "'" + sTriggerValue + "', " +
@@ -271,6 +283,7 @@ namespace SNMS_DataService.Queries
 
         static public string UpdateTriggerQuery(int dwTriggerID,
                                             int dwConfigurationID,
+                                            int dwTriggerTypeID,
                                             string sTriggerName,
                                             string sTriggerDescription,
                                             string sTriggerValue,
@@ -280,6 +293,7 @@ namespace SNMS_DataService.Queries
         {
             return "UPDATE `triggers` SET " +
                     "`ConfigurationID` = " + dwConfigurationID + ", " +
+                    "`TriggerTypeID` = " + dwTriggerTypeID + ", " +
                     "`TriggerName` = '" + sTriggerName + "', " +
                     "`TriggerDescription` = '" + sTriggerDescription + "', " +
                     "`TriggerValue` = '" + sTriggerValue + "', " +
@@ -297,6 +311,11 @@ namespace SNMS_DataService.Queries
         static public string GetUsersQuery()
         {
             return "SELECT * FROM `users`;";
+        }
+
+        static public string GetSpecificUserQuery(int dwUserID)
+        {
+            return "SELECT * FROM `users` WHERE `UserID` = " + dwUserID + ";";
         }
 
         static public string NewUserQuery(string sUserName,
@@ -322,7 +341,7 @@ namespace SNMS_DataService.Queries
                                         bool bUserEnableRead,
                                         bool bUserEnableWrite)
         {
-            return "UPDATE `triggers` SET " +
+            return "UPDATE `users` SET " +
                     "`UserName` = '" + sUserName + "', " +
                     "`UserHashedPassword` = '" + sUserHashedPassword + "', " +
                     "`UserTypeID` = " + dwUserTypeID + ", " +
@@ -351,7 +370,7 @@ namespace SNMS_DataService.Queries
                     ");";
         }
 
-        static public string UpdateUserQuery(int dwUserTypeID,
+        static public string UpdateUserTypeQuery(int dwUserTypeID,
                                         string sUserTypeName)
         {
             return "UPDATE `usertypes` SET " +
