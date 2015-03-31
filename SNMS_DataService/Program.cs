@@ -37,6 +37,9 @@ namespace SNMS_DataService
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_CONFIGURATION, new UpdateConfigurationHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_CONFIGURATION, new DeleteConfigurationHandler());
 
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_VARIABLES, new GetConfigurationVariablesHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_VARIABLES, new UpdateConfigurationVariableHandler());
+
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_SEQUENCES, new GetSequencesHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_SEQUENCE, new UpdateSequenceHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_SEQUENCE, new DeleteSequenceHandler());

@@ -23,7 +23,6 @@ namespace SNMS_DataService.Handlers
 
             int accountID = message.GetParameterAsInt(0);
 
-            // HERE WE SHOULD CHECK WHAT SEQUENCES ARE NEEDED FOR THIS CONFIGURATION
             MySqlDataReader reader = dbGateway.ReadQuery(QueryManager.GetSpecificAccountQuery(accountID));
             reader.Read();
             int dwPluginId = Int32.Parse(reader["PluginID"].ToString());
@@ -43,7 +42,7 @@ namespace SNMS_DataService.Handlers
             int configurationId = Int32.Parse(reader[0].ToString());
             reader.Close();
 
-            // HERE WE SHOULD ADD ALL SEQUENCES TO THE NEW CREATED CONFIGURATION
+            // HERE WE ADD ALL SEQUENCES TO THE NEW CREATED CONFIGURATION
             reader = dbGateway.ReadQuery(QueryManager.GetSequencesForPluginQuery(dwPluginId));
             List<int> sequenceIdList = new List<int>();
             while (reader.Read())
@@ -55,6 +54,20 @@ namespace SNMS_DataService.Handlers
             {
                 int sequenceID = id;
                 dbGateway.WriteQuery(QueryManager.NewConfigurationSequenceQuery(configurationId, sequenceID, true));
+            }
+            
+            // HERE WE ADD ALL VARIABLES TO THE NEW CREATED CONFIGURATION
+            reader = dbGateway.ReadQuery(QueryManager.GetVariablesForPluginQuery(dwPluginId));
+            List<int> variablesIdList = new List<int>();
+            while (reader.Read())
+            {
+                variablesIdList.Add(Int32.Parse(reader["VariableID"].ToString()));
+            }
+            reader.Close();
+            foreach (int id in variablesIdList)
+            {
+                int variableID = id;
+                dbGateway.WriteQuery(QueryManager.NewConfigurationVariableQuery(configurationId, variableID, ""));
             }
 
             reader = dbGateway.ReadQuery(QueryManager.GetSpecificConfigurationQuery(configurationId));

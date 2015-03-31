@@ -366,7 +366,7 @@ namespace SNMS_DataService.Queries
             return "INSERT INTO `usertypes`(`UserTypeID`, `UserTypeName`) " +
                     "VALUES ( " +
                     dwUserTypeID + ", " +
-                    "'" + sUserTypeName + "', " +
+                    "'" + sUserTypeName + "' " +
                     ");";
         }
 
@@ -374,8 +374,43 @@ namespace SNMS_DataService.Queries
                                         string sUserTypeName)
         {
             return "UPDATE `usertypes` SET " +
-                    "`UserTypeName` = '" + sUserTypeName + "', " +
+                    "`UserTypeName` = '" + sUserTypeName + "' " +
                     "WHERE `UserTypeID` = " + dwUserTypeID + ";";
+        }
+
+        static public string GetVariablesCountQuery(int dwConfigurationID)
+        {
+            return "SELECT COUNT(*) FROM `configurationvariables` WHERE `ConfigurationID` = " + dwConfigurationID + ";";
+        }
+
+        static public string GetVariablesQuery(int dwConfigurationID)
+        {
+            return "SELECT configurationvariables.ConfigurationVariableID, variables.VariableName, variables.VariableType, configurationvariables.VariableValue FROM `variables` LEFT JOIN `configurationvariables` ON variables.VariableID = configurationvariables.VariableID WHERE configurationvariables.ConfigurationID = " + dwConfigurationID + ";";
+        }
+
+        static public string GetVariablesForPluginQuery(int dwPluginID)
+        {
+            return "SELECT * FROM `variables` WHERE `PluginID` = " + dwPluginID + ";";
+        }
+
+        static public string UpdateConfigurationVariableQuery(  int dwConfigurationVariableID,
+                                                                string sVariableValue)
+        {
+            return "UPDATE `configurationvariables` SET " +
+                    "`VariableValue` = '" + sVariableValue + "' " +
+                    "WHERE `ConfigurationVariableID` = " + dwConfigurationVariableID + ";";
+        }
+
+        static public string NewConfigurationVariableQuery(int dwConfigurationID,
+                                                            int dwVariableID,
+                                                            string sValue)
+        {
+            return "INSERT INTO `configurationvariables`(`ConfigurationID`, `VariableID`, `VariableValue`) " +
+                    "VALUES ( " +
+                    dwConfigurationID + ", " +
+                    dwVariableID + ", " +
+                    "'" + sValue + "' " +
+                    ");";
         }
 
         static public string DeleteAccountQuery(int dwAccountID)

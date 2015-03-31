@@ -54,35 +54,22 @@ namespace SNMS_DataService.Connection
             stream.Flush();
         }
         
-        static void HandleServerConnection(TcpClient client, NetworkStream stream)
+        static void HandleServerConnection(TcpClient server, NetworkStream stream)
         {
-            byte[] res = ProtocolMessage.GetBytes("ok");
-            stream.Write(res, 0, res.Length);
+            ProtocolMessage connectionOkMessage = new ProtocolMessage();
+            connectionOkMessage.SetMessageType(ProtocolMessageType.PROTOCOL_MESSAGE_CONNECTION_RESPONSE);
+            SendMessage(stream, connectionOkMessage);
 
-            int dwReadBytes = 0;
-            while (dwReadBytes > 0)
+            HandlerManager handlerManager = HandlerManager.Instance();
+
+            ProtocolMessage message = GetMessage(stream);
+            while (message != null)
             {
-               /* int dwMessageSize = 0;
-                int dwChunks = 0;
-                int dwRemainder = 0;
-                byte[] messageSizeBuffer = new byte[4];
-                byte[] buffer = new byte[1024];
-                stream.Read(messageSizeBuffer, 0, 4);
-
-                // If the system architecture is little-endian reverse the byte array. 
-                if (BitConverter.IsLittleEndian)
+                if (!handlerManager.HandleServerMessage(message, stream))
                 {
-                    Array.Reverse(messageSizeBuffer);
+                    return;
                 }
-                dwMessageSize = BitConverter.ToInt32(messageSizeBuffer, 0);
-                dwChunks = (int)Math.Floor((double)dwMessageSize / 1024);
-                dwRemainder = dwMessageSize - dwChunks * 1024;
-
-                byte[] readMessageBytes = new byte[dwMessageSize];*/
-                MemoryStream memoryStream = new MemoryStream();
-                stream.CopyTo(memoryStream); 
-                
-
+                message = GetMessage(stream);
             }
         }
 

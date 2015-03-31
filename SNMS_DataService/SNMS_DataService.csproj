@@ -64,6 +64,8 @@
     <Compile Include="Connection\ConnectionHandler.cs" />
     <Compile Include="Connection\Protocol.cs" />
     <Compile Include="Database\DatabaseGateway.cs" />
+    <Compile Include="Handlers\UpdateConfigurationVariableHandler.cs" />
+    <Compile Include="Handlers\GetConfigurationVariablesHandler.cs" />
     <Compile Include="Handlers\DeleteUserTypeHandler.cs" />
     <Compile Include="Handlers\DeleteUserHandler.cs" />
     <Compile Include="Handlers\DeleteTriggerHandler.cs" />
