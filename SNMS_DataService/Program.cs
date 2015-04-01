@@ -62,6 +62,28 @@ namespace SNMS_DataService
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_USER, new DeleteUserHandler());
         }
 
+        static void PopulateServerHandlerManager(HandlerManager manager)
+        {
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_PLUGINS, new GetPluginsHandler());
+
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_ACCOUNTS, new GetAccountsHandler());
+
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_CONFIGURATIONS, new GetConfigurationsHandler());
+
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_VARIABLES, new GetConfigurationVariablesHandler());
+
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_SEQUENCES, new GetSequencesHandler());
+
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_TRIGGER_TYPES, new GetTriggerTypesHandler());
+
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_TRIGGERS, new GetTriggersHandler());
+
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USER_TYPES, new GetUserTypesHandler());
+
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USERS, new GetUsersHandler());
+
+        }
+
         static void Main(string[] args)
         {
             DatabaseGateway.DatabaseParameters parameters = new DatabaseGateway.DatabaseParameters(DB_HOST, DB_USER, DB_PW, DB_NAME);
@@ -70,6 +92,7 @@ namespace SNMS_DataService
 
             HandlerManager handlerManager = HandlerManager.Instance();
             PopulateClientHandlerManager(handlerManager);
+            PopulateServerHandlerManager(handlerManager);
 
             IPAddress localAddr = IPAddress.Parse("127.0.0.1");
             TcpListener listener = new TcpListener(localAddr,TCP_PORT);
