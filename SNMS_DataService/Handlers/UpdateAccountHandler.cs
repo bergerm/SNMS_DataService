@@ -30,6 +30,8 @@ namespace SNMS_DataService.Handlers
 
             dbGateway.WriteQuery(QueryManager.UpdateAccountQuery(dwID, pluginID, sName, sDesc, sUser, sPass));
 
+            dbGateway.WriteQuery(QueryManager.NewDataAvailableQuery());
+
             return true;
         }
     }

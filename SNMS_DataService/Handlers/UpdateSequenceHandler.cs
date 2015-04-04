@@ -27,6 +27,8 @@ namespace SNMS_DataService.Handlers
 
             dbGateway.WriteQuery(QueryManager.UpdateConfigurationSequenceQuery(dwID, configurationID, bEnabled));
 
+            dbGateway.WriteQuery(QueryManager.NewDataAvailableQuery());
+
             return true;
         }
     }

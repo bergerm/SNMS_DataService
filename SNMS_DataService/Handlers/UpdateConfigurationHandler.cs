@@ -29,6 +29,8 @@ namespace SNMS_DataService.Handlers
 
             dbGateway.WriteQuery(QueryManager.UpdateConfigurationQuery(dwID, accountID, sName, sDesc, bEnabled));
 
+            dbGateway.WriteQuery(QueryManager.NewDataAvailableQuery());
+
             return true;
         }
     }

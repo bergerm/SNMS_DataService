@@ -82,6 +82,10 @@ namespace SNMS_DataService
 
             manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_USERS, new GetUsersHandler());
 
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_SERVER_UPDATE_STATUS, new ServerUpdateRequiredHandler());
+
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_SERVER_UPDATED, new ServerUpdatedHandler());
+
         }
 
         static void Main(string[] args)

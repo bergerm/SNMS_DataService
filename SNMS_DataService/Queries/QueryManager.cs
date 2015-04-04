@@ -239,9 +239,9 @@ namespace SNMS_DataService.Queries
                                             string sTriggerTypeDescription)
         {
             return "UPDATE `triggertypes` SET " +
-                    "`ConfigurationID` = " + dwConfigurationID + ", " +
                     "`TriggerTypeName` = '" + sTriggerTypeName + "', " +
-                    "`TriggerTypeDescription` = '" + sTriggerTypeDescription + "';";
+                    "`TriggerTypeDescription` = '" + sTriggerTypeDescription + "' " +
+                    "WHERE `TriggerTypeID` = " + dwTriggerID + ";";
         }
 
         static public string GetTriggersCountQuery(int dwConfigurationID, int dwTriggerTypeID)
@@ -451,6 +451,21 @@ namespace SNMS_DataService.Queries
         static public string DeleteUserQuery(int dwUserID)
         {
             return "DELETE FROM `users` WHERE `UserID` = " + dwUserID + ";";
+        }
+
+        static public string ServerUpdatedQuery()
+        {
+            return "UPDATE `systemvariables` SET `ServerLastTimeUpdated` = CURRENT_TIME() WHERE `SystemVariablesID` = 1;";
+        }
+
+        static public string NewDataAvailableQuery()
+        {
+            return "UPDATE `systemvariables` SET `DataAvailableTime` = CURRENT_TIME() WHERE `SystemVariablesID` = 1;";
+        }
+
+        static public string ServerNeedsUpdateQuery()
+        {
+            return "SELECT `DataAvailableTime` > `ServerLastTimeUpdated` AS UpdateRequired FROM `systemvariables` WHERE `SystemVariablesID` = 1";
         }
     }
 }

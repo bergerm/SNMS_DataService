@@ -33,6 +33,8 @@ namespace SNMS_DataService.Handlers
 
             dbGateway.WriteQuery(QueryManager.UpdateTriggerQuery(dwID, dwConfigurationID, dwTriggerTypeID, sName, sDesc, sValue, dwReactionSequenceID, sReactionValue, bEnabled));
 
+            dbGateway.WriteQuery(QueryManager.NewDataAvailableQuery());
+
             return true;
         }
     }

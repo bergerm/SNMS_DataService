@@ -27,6 +27,8 @@ namespace SNMS_DataService.Handlers
 
             dbGateway.WriteQuery(QueryManager.DeleteTriggerQuery(dwTriggerID));
 
+            dbGateway.WriteQuery(QueryManager.NewDataAvailableQuery());
+
             return true;
         }
     }

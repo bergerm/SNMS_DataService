@@ -27,6 +27,9 @@ namespace SNMS_DataService.Handlers
 
             dbGateway.WriteQuery(QueryManager.DeleteAccountQuery(dwAccountID));
 
+            // New Data Available
+            dbGateway.WriteQuery(QueryManager.NewDataAvailableQuery());
+
             return true;
         }
     }

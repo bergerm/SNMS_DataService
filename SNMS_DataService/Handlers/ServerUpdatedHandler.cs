@@ -15,19 +15,13 @@ using MySql.Data.MySqlClient;
 
 namespace SNMS_DataService.Handlers
 {
-    class DeleteTriggerTypeHandler : Handler
+    class ServerUpdatedHandler : Handler
     {
         override protected bool HandlerLogic(ProtocolMessage message, NetworkStream stream)
         {
-            UsersDictionary usersDictionary = UsersDictionary.Instance();
-
-            int dwTriggerTypeID = message.GetParameterAsInt(0);
-
             DatabaseGateway dbGateway = DatabaseGateway.Instance(null);
 
-            dbGateway.WriteQuery(QueryManager.DeleteTriggerTypeQuery(dwTriggerTypeID));
-
-            dbGateway.WriteQuery(QueryManager.NewDataAvailableQuery());
+            dbGateway.WriteQuery(QueryManager.ServerUpdatedQuery());
 
             return true;
         }

@@ -28,6 +28,8 @@ namespace SNMS_DataService.Handlers
 
             dbGateway.WriteQuery(QueryManager.UpdateTriggeTypesQuery(dwID, configurationID, sName, sDesc));
 
+            dbGateway.WriteQuery(QueryManager.NewDataAvailableQuery());
+
             return true;
         }
     }
