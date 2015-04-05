@@ -60,6 +60,8 @@ namespace SNMS_DataService
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_NEW_USER, new NewUserHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_USER, new UpdateUserHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_USER, new DeleteUserHandler());
+
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_SAVE_LOG_MESSAGE, new LogMessageHandler());
         }
 
         static void PopulateServerHandlerManager(HandlerManager manager)
@@ -85,6 +87,8 @@ namespace SNMS_DataService
             manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_SERVER_UPDATE_STATUS, new ServerUpdateRequiredHandler());
 
             manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_SERVER_UPDATED, new ServerUpdatedHandler());
+
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_SAVE_LOG_MESSAGE, new LogMessageHandler());
 
         }
 

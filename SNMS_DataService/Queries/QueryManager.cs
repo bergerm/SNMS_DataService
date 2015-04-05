@@ -467,5 +467,22 @@ namespace SNMS_DataService.Queries
         {
             return "SELECT `DataAvailableTime` > `ServerLastTimeUpdated` AS UpdateRequired FROM `systemvariables` WHERE `SystemVariablesID` = 1";
         }
+
+        static public string SaveLogMessage (   string sLogType,
+                                                string sLogMessage,
+                                                string sLogLink,
+                                                string sComponent,
+                                                string sUser )
+        {
+            return "INSERT INTO `logs`(`LogType`, `LogMessage`, `LogLink`, `LogTime`, `LogComponent`, `LogUserName`) " +
+                    "VALUES ( " +
+                    "'" + sLogType + "', " +
+                    "'" + sLogMessage + "', " +
+                    "'" + sLogLink + "', " +
+                    "CURRENT_TIME(), " +
+                    "'" + sComponent + "', " +
+                    "'" + sUser + "' " +
+                    ");";
+        }
     }
 }
