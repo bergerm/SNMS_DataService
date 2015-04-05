@@ -62,6 +62,7 @@ namespace SNMS_DataService
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_DELETE_USER, new DeleteUserHandler());
 
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_SAVE_LOG_MESSAGE, new LogMessageHandler());
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_LAST_100_LOGS, new GetLastHunderdLogsHandler());
         }
 
         static void PopulateServerHandlerManager(HandlerManager manager)

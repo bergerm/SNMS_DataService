@@ -484,5 +484,15 @@ namespace SNMS_DataService.Queries
                     "'" + sUser + "' " +
                     ");";
         }
+
+        static public string GetLastLogs()
+        {
+            return "SELECT * FROM ( SELECT * FROM `logs` ORDER BY `LogID` DESC LIMIT 100 ) sub ORDER BY `LogID` DESC;";
+        }
+
+        static public string GetLastLogsCount()
+        {
+            return "SELECT COUNT(*) FROM ( SELECT * FROM `logs` ORDER BY `LogID` DESC LIMIT 100 ) sub ORDER BY `LogID` DESC;";
+        }
     }
 }
