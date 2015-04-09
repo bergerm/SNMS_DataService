@@ -64,6 +64,7 @@
     <Compile Include="Connection\ConnectionHandler.cs" />
     <Compile Include="Connection\Protocol.cs" />
     <Compile Include="Database\DatabaseGateway.cs" />
+    <Compile Include="Handlers\UpdatePluginHandler.cs" />
     <Compile Include="Handlers\GetLastHundredLogsHandler.cs" />
     <Compile Include="Handlers\LogMessageHandler.cs" />
     <Compile Include="Handlers\ServerUpdateRequiredHandler.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Handlers\LoginMessageHandler.cs" />
     <Compile Include="Handlers\Handler.cs" />
     <Compile Include="Handlers\HandlerManager.cs" />
+    <Compile Include="Plugins\PluginParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Queries\QueryManager.cs" />

@@ -37,7 +37,7 @@ namespace SNMS_DataService.Queries
                                         bool bPluginEnabled,
                                         string sPluginFilePath)
         {
-            return  "INSERT INTO `plugins`(`PluginName`, `PluginDescription`, `PluginEnabled`, `PluginBLOB`) " +
+            return  "INSERT INTO `plugins` (`PluginName`, `PluginDescription`, `PluginEnabled`, `PluginBLOB`) " +
                     "VALUES ( " +
                     "'" + sPluginName + "', " +
                     "'" + sPluginDescription + "', " +
@@ -49,14 +49,12 @@ namespace SNMS_DataService.Queries
         static public string UpdatePluginQuery(int dwPluginID, 
                                         string sPluginName,
                                         string sPluginDescription,
-                                        bool bPluginEnabled,
-                                        string sPluginFilePath)
+                                        bool bPluginEnabled)
         {
             return "UPDATE `plugins` SET " +
                     "`PluginName` = '" + sPluginName + "', " +
                     "`PluginDescription` = '" + sPluginDescription + "', " +
-                    "`PluginEnabled` = " + ((bPluginEnabled) ? 1 : 0) + ", " +
-                    "`PluginBLOB` = LOAD_FILE('" + sPluginFilePath + "') " +
+                    "`PluginEnabled` = " + ((bPluginEnabled) ? 1 : 0) + " " +
                     "WHERE `PluginID` = " + dwPluginID +";";
         }
 
@@ -493,6 +491,25 @@ namespace SNMS_DataService.Queries
         static public string GetLastLogsCount()
         {
             return "SELECT COUNT(*) FROM ( SELECT * FROM `logs` ORDER BY `LogID` DESC LIMIT 100 ) sub ORDER BY `LogID` DESC;";
+        }
+
+        static public string NewPluginVariable(int dwPluginID, string sVariableName, string sVariableType)
+        {
+            return "INSERT INTO `variables`(`PluginID`, `VariableName`, `VariableType`) " +
+                    "VALUES ( " +
+                    dwPluginID + ", " +
+                    "'" + sVariableName + "', " +
+                    "'" + sVariableType + "' " +
+                    ");";
+        }
+
+        static public string NewPluginSequence(int dwPluginID, string sSequenceName)
+        {
+            return "INSERT INTO `sequences`(`PluginID`, `SequenceName`) " +
+                    "VALUES ( " +
+                    dwPluginID + ", " +
+                    "'" + sSequenceName + "' " +
+                    ");";
         }
     }
 }

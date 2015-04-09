@@ -85,7 +85,7 @@ namespace SNMS_DataService.Handlers
                 //Parameter PluginEnabled
                 responseMessage.AddParameter(BitConverter.GetBytes(dwPluginEnabled), 4);
                 //Parameter PluginBLOB
-                responseMessage.AddParameter(memStream.GetBuffer(), (int)memStream.Length); 
+                //responseMessage.AddParameter(memStream.GetBuffer(), (int)memStream.Length); 
                 
             }
 

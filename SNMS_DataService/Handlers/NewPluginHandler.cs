@@ -12,6 +12,7 @@ using SNMS_DataService.Connection;
 using SNMS_DataService.Users;
 using SNMS_DataService.Queries;
 using MySql.Data.MySqlClient;
+using SNMS_DataService.Plugins;
 
 namespace SNMS_DataService.Handlers
 {
@@ -28,20 +29,35 @@ namespace SNMS_DataService.Handlers
             message.GetParameter(ref fileData, 1);
             if (fileData.Length == 0)
             {
-                return false;
+                return true;
             }
 
-            sFileName += DateTime.Now.ToString("_MM_dd_yyyy_hh_mm_tt");
+            sFileName += DateTime.Now.ToString("_MM_dd_yyyy_hh_mm_tt_fffffff");
             sFilePath += sFileName;
-            File.Create(sFilePath);
+            //FileStream fileStream = File.Create(sFilePath);
+            //fileStream.Close();
 
-            FileStream fileStream = new FileStream(sFilePath, FileMode.Append, FileAccess.Write);
-            StreamWriter writer = new StreamWriter(fileStream);
-            writer.Write(fileData);
-            writer.Close();
-            fileStream.Close();
+            //fileStream = new FileStream(sFilePath, FileMode.Append, FileAccess.Write);
+            //StreamWriter writer = new StreamWriter(fileStream);
+            //writer.Write(fileData);
+            //writer.Close();
+            //fileStream.Close();
+            File.WriteAllBytes(sFilePath, fileData);
 
-            dbGateway.WriteQuery(QueryManager.NewPluginQuery("New Plugin", "", false, sFilePath));
+            string sErrorString = "";
+            Plugin plugin = PluginParser.ParsePlugin(sFilePath, ref sErrorString);
+            if (plugin == null)
+            {
+                ProtocolMessage errorMessage = new ProtocolMessage();
+                errorMessage.SetMessageType(ProtocolMessageType.PROTOCOL_MESSAGE_PLUGINS_LIST);
+
+                errorMessage.AddParameter(0);
+                errorMessage.AddParameter(sErrorString);
+                return true;
+            }
+
+            string sFilePathForSQL = sFilePath.Replace('\\', '/');
+            dbGateway.WriteQuery(QueryManager.NewPluginQuery(plugin.sName, plugin.sDescription, false, sFilePathForSQL));
             
             ProtocolMessage responseMessage = new ProtocolMessage();
             responseMessage.SetMessageType(ProtocolMessageType.PROTOCOL_MESSAGE_PLUGINS_LIST);
@@ -68,47 +84,29 @@ namespace SNMS_DataService.Handlers
             int dwPluginId = Int32.Parse(reader["PluginID"].ToString());
             string sPluginName = reader["PluginName"].ToString();
             string sPluginDesc = reader["PluginDescription"].ToString();
-            int dwPluginEnabled = Int32.Parse(reader["PluginEnabled"].ToString());
-            int dwBlobColumnIndex = 4;
- 
-            MemoryStream memStream = new MemoryStream();
-
-            int bufferSize = 1024;
-            byte[] blobBuffer = new byte[bufferSize];
-            // Reset the starting byte for the new BLOB.
-            long startIndex = 0;
-            // Read bytes into outByte[] and retain the number of bytes returned.
-            long retval = reader.GetBytes(dwBlobColumnIndex, startIndex, blobBuffer, 0, bufferSize);
-
-            // Continue while there are bytes beyond the size of the buffer.
-            while (retval == bufferSize)
-            {
-                memStream.Write(blobBuffer,0,bufferSize);
-                memStream.Flush();
-
-                // Reposition start index to end of last buffer and fill buffer.
-                startIndex += bufferSize;
-                retval = reader.GetBytes(dwBlobColumnIndex, startIndex, blobBuffer, 0, bufferSize);
-            }
-
-            // Write the remaining buffer.
-            memStream.Write(blobBuffer, 0, bufferSize);
-            memStream.Flush();
+            bool bPluginEnabled = (reader["PluginEnabled"].ToString() == "1")?true:false;
+            reader.Close();
 
             //Parameter PluginID
-            responseMessage.AddParameter(BitConverter.GetBytes(dwPluginId), 4);
+            responseMessage.AddParameter(dwPluginId);
             //Parameter PluginName
             responseMessage.AddParameter(sPluginName);
             //Parameter PluginDescription
             responseMessage.AddParameter(sPluginDesc);
             //Parameter PluginEnabled
-            responseMessage.AddParameter(BitConverter.GetBytes(dwPluginEnabled), 4);
-            //Parameter PluginBLOB
-            responseMessage.AddParameter(memStream.GetBuffer(), (int)memStream.Length); 
-                
-            ConnectionHandler.SendMessage(stream, responseMessage);
+            responseMessage.AddParameter(bPluginEnabled);
 
-            reader.Close();
+            foreach (Variable variable in plugin.valiableList)
+            {
+                dbGateway.WriteQuery(QueryManager.NewPluginVariable(dwPluginId, variable.sName, variable.sType));
+            }
+
+            foreach (Sequence sequence in plugin.sequenceList)
+            {
+                dbGateway.WriteQuery(QueryManager.NewPluginSequence(dwPluginId, sequence.sName));
+            }
+
+            ConnectionHandler.SendMessage(stream, responseMessage);
 
             return true;
         }
