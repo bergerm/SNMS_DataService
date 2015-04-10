@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
+using MySql.Data.MySqlClient;
+
+using SNMS_DataService.Database;
+using SNMS_DataService.Queries;
 
 namespace SNMS_DataService.Users
 {
@@ -18,6 +22,7 @@ namespace SNMS_DataService.Users
         private UsersDictionary()
         {
             usersDictionary = new Dictionary<string, User>();
+            m_mutex = new Mutex();
         }
 
         public static UsersDictionary Instance()
@@ -47,6 +52,36 @@ namespace SNMS_DataService.Users
             }
             m_mutex.ReleaseMutex();
             return null;
+        }
+
+        public void LoadUsers()
+        {
+            m_mutex.WaitOne();
+
+            usersDictionary.Clear();
+
+            DatabaseGateway dbGateway = DatabaseGateway.Instance(null);
+            MySqlDataReader reader = dbGateway.ReadQuery(QueryManager.GetUsersQuery());
+
+            while (reader.Read())
+            {
+                int dwUserId = Int32.Parse(reader["UserID"].ToString());
+                string sUserName = reader["UserName"].ToString();
+                string sHashedPassword = reader["UserHashedPassword"].ToString();
+                int dwUserTypeId = Int32.Parse(reader["UserTypeID"].ToString());
+
+                byte dwUserEnableRead = byte.Parse(reader["UserEnableRead"].ToString());
+                bool userEnableRead = (dwUserEnableRead == 1) ? true : false;
+                int dwUserEnableWrite = byte.Parse(reader["UserEnableWrite"].ToString());
+                bool userEnableWrite = (dwUserEnableWrite == 1) ? true : false;
+
+                User user = new User(sUserName, sHashedPassword, (UserTypes)dwUserTypeId, userEnableRead, userEnableWrite);
+                usersDictionary.Add(sUserName, user);
+            }
+
+            reader.Close();
+
+            m_mutex.ReleaseMutex();
         }
     }
 }

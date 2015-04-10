@@ -16,28 +16,24 @@ namespace SNMS_DataService.Handlers
         {
             ProtocolMessage responseMessage = new ProtocolMessage();
             responseMessage.SetMessageType(ProtocolMessageType.PROTOCOL_MESSAGE_LOGIN_ANSWER);
-            string sResponse;
 
             UsersDictionary usersDictionary = UsersDictionary.Instance();
 
             string sUserName = message.GetParameterAsString(0);
             string sPassword = message.GetParameterAsString(1);
 
+            usersDictionary.LoadUsers();
+
             User user = usersDictionary.GetUser(sUserName);
-            if (sPassword == user.GetHashedPassword())
+            if (user != null && sPassword == user.GetHashedPassword())
             {
-                sResponse = ProtocolMessage.PROTOCOL_CONSTANT_SUCCESS_MESSAGE;
+                responseMessage.AddParameter(ProtocolMessage.PROTOCOL_CONSTANT_SUCCESS_MESSAGE);
+                responseMessage.AddParameter((int)user.GetUserType());
             }
             else
             {
-                sResponse = ProtocolMessage.PROTOCOL_CONSTANT_FAILURE_MESSAGE;
+                responseMessage.AddParameter(ProtocolMessage.PROTOCOL_CONSTANT_FAILURE_MESSAGE);
             }
-
-            responseMessage.AddParameter(sResponse);
-
-            UserTypes userType = user.GetUserType();
-            byte[] userTypeBytes = BitConverter.GetBytes((int)userType);
-            responseMessage.AddParameter(userTypeBytes, 4);
 
             ConnectionHandler.SendMessage(stream, responseMessage);
 

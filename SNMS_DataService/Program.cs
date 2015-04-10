@@ -24,6 +24,8 @@ namespace SNMS_DataService
 
         static void PopulateClientHandlerManager(HandlerManager manager)
         {
+            manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_LOGIN_REQUEST, new LoginMessageHandler());
+
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_PLUGINS, new GetPluginsHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_NEW_PLUGIN, new NewPluginHandler());
             manager.RegisterClientHandler(ProtocolMessageType.PROTOCOL_MESSAGE_UPDATE_PLUGIN, new UpdatePluginHandler());
