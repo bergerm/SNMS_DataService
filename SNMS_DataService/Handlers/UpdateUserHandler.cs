@@ -23,12 +23,12 @@ namespace SNMS_DataService.Handlers
 
             int dwID = message.GetParameterAsInt(0);
             string sName = message.GetParameterAsString(1);
-            string sPass = message.GetParameterAsString(2);
+            string sHashedPass = message.GetParameterAsString(2);
             int dwTypeID = message.GetParameterAsInt(3);
             bool bReadEnabled = message.GetParameterAsBool(4);
             bool bWriteEnabled = message.GetParameterAsBool(5);
 
-            dbGateway.WriteQuery(QueryManager.UpdateUserQuery(dwID, sName, sPass, dwTypeID, bReadEnabled, bWriteEnabled));
+            dbGateway.WriteQuery(QueryManager.UpdateUserQuery(dwID, sName, sHashedPass, dwTypeID, bReadEnabled, bWriteEnabled));
 
             return true;
         }
