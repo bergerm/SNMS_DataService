@@ -11,6 +11,7 @@ using SNMS_DataService.Database;
 using SNMS_DataService.Queries;
 using SNMS_DataService.Connection;
 using SNMS_DataService.Handlers;
+using SNMS_DataService.UpdListeners;
 
 namespace SNMS_DataService
 {
@@ -109,6 +110,9 @@ namespace SNMS_DataService
 
             IPAddress localAddr = IPAddress.Parse("127.0.0.1");
             TcpListener listener = new TcpListener(localAddr,TCP_PORT);
+
+            // used to handle UdpListeners (output API)
+            UdpListenerHandler udpListenerHandler = UdpListenerHandler.Instance();
 
             try
             {

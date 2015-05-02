@@ -9,6 +9,7 @@ using System.IO;
 
 using SNMS_DataService.Users;
 using SNMS_DataService.Handlers;
+using SNMS_DataService.UpdListeners;
 
 namespace SNMS_DataService.Connection
 {
@@ -65,9 +66,14 @@ namespace SNMS_DataService.Connection
 
             HandlerManager handlerManager = HandlerManager.Instance();
 
+            UdpListenerHandler udpListenersHandler = UdpListenerHandler.Instance();
+
             ProtocolMessage message = GetMessage(stream);
             while (message != null)
             {
+                // resend the message to all listeners
+                udpListenersHandler.SendMessage(Protocol.CraftMessage(message));
+
                 if (!handlerManager.HandleServerMessage(message, stream))
                 {
                     return;
@@ -93,6 +99,16 @@ namespace SNMS_DataService.Connection
                 }
                 message = GetMessage(stream);
             }
+        }
+
+        static void HandleUdpListenerConnection(TcpClient client, NetworkStream stream, string ipAddress)
+        {
+            ProtocolMessage connectionOkMessage = new ProtocolMessage();
+            connectionOkMessage.SetMessageType(ProtocolMessageType.PROTOCOL_MESSAGE_CONNECTION_RESPONSE);
+            SendMessage(stream, connectionOkMessage);
+
+            UdpListenerHandler udpListenerHandler = UdpListenerHandler.Instance();
+            udpListenerHandler.RegisterListener(ipAddress);
         }
 
         public static void HandleConnection(object client)
@@ -130,6 +146,11 @@ namespace SNMS_DataService.Connection
 
                     case "client":
                         HandleClientConnection(tcpClient, stream);
+                        break;
+
+                    case "udpListener":
+                        string sAddress = connectionMessage.GetParameterAsString(1);
+                        HandleUdpListenerConnection(tcpClient, stream, sAddress);
                         break;
 
                     default:

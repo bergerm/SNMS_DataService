@@ -11,6 +11,8 @@ namespace SNMS_DataService.UpdListeners
 {
     class UdpListenerHandler
     {
+        static UdpListenerHandler m_instance;
+        
         List<IPAddress> m_listOfAddresses;
         Mutex m_mutex;
 
@@ -19,14 +21,24 @@ namespace SNMS_DataService.UpdListeners
 
         const int UDP_PORT = 8454;
 
-        public UdpListenerHandler()
+        static public UdpListenerHandler Instance()
+        {
+            if (m_instance == null)
+            {
+                m_instance = new UdpListenerHandler();
+            }
+
+            return m_instance;
+        }
+
+        protected UdpListenerHandler()
         {
             m_listOfAddresses = new List<IPAddress>();
             m_mutex = new Mutex();
             m_wipeTimer = null;
         }
 
-        void RegisterListener(string sIpAddress)
+        public void RegisterListener(string sIpAddress)
         {
             IPAddress ip = IPAddress.Parse(sIpAddress);
             if (m_listOfAddresses.Contains(ip))
@@ -45,7 +57,7 @@ namespace SNMS_DataService.UpdListeners
             m_mutex.ReleaseMutex();
         }
 
-        void StartTimer()
+        public void StartTimer()
         {
             if (m_wipeTimer != null)
             {
@@ -59,7 +71,7 @@ namespace SNMS_DataService.UpdListeners
 
         }
 
-        void StopTimer()
+        public void StopTimer()
         {
             if (m_wipeTimer == null)
             {
@@ -67,7 +79,7 @@ namespace SNMS_DataService.UpdListeners
             }
         }
 
-        void SendMessage(byte[] message)
+        public void SendMessage(byte[] message)
         {
             foreach (IPAddress address in m_listOfAddresses)
             {
