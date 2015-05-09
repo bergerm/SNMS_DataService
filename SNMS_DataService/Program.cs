@@ -74,6 +74,8 @@ namespace SNMS_DataService
         {
             manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_PLUGINS, new GetPluginsHandler());
 
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_PLUGINS_WITH_BLOBS, new GetPluginsWithBlobHandler());
+
             manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_ACCOUNTS, new GetAccountsHandler());
 
             manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_GET_CONFIGURATIONS, new GetConfigurationsHandler());
