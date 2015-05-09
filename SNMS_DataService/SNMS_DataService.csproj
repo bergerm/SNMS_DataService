@@ -65,6 +65,7 @@
     <Compile Include="Connection\Protocol.cs" />
     <Compile Include="Database\DatabaseGateway.cs" />
     <Compile Include="Handlers\ConfigurationStatusMessageHandler.cs" />
+    <Compile Include="Handlers\GetConfigurationStatusHandler.cs" />
     <Compile Include="Handlers\GetPluginsWithBlobHandler.cs" />
     <Compile Include="Handlers\UpdatePluginHandler.cs" />
     <Compile Include="Handlers\GetLastHundredLogsHandler.cs" />

@@ -496,7 +496,7 @@ namespace SNMS_DataService.Queries
 
         static public string GetConfigurationsStatus()
         {
-            return "SELECT * FROM `configurationstatus`;";
+            return "SELECT ConfigurationID, Status, TIMESTAMPDIFF(SECOND, Time, NOW()) As Expired FROM `configurationstatus`;";
         }
 
         static public string GetLastLogs()
