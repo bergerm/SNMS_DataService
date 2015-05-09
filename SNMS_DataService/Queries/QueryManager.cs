@@ -483,6 +483,22 @@ namespace SNMS_DataService.Queries
                     ");";
         }
 
+        static public string NewConfigurationStatus(int dwConfigurationId)
+        {
+            return "INSERT INTO `configurationstatus` (`ConfigurationID`) VALUES (" + dwConfigurationId + ");";
+        }
+
+        static public string SaveConfigurationStatusMessage(int dwConfigurationId,
+                                                            string sStatus)
+        {
+            return "UPDATE `configurationstatus` SET `Status` = '" + sStatus + "', `Time` = CURRENT_TIME() WHERE `ConfigurationID` = " + dwConfigurationId + ";";
+        }
+
+        static public string GetConfigurationsStatus()
+        {
+            return "SELECT * FROM `configurationstatus`;";
+        }
+
         static public string GetLastLogs()
         {
             return "SELECT * FROM ( SELECT * FROM `logs` ORDER BY `LogID` DESC LIMIT 100 ) sub ORDER BY `LogID` DESC;";

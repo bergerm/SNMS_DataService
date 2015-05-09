@@ -98,6 +98,8 @@ namespace SNMS_DataService
 
             manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_SAVE_LOG_MESSAGE, new LogMessageHandler());
 
+            manager.RegisterServerHandler(ProtocolMessageType.PROTOCOL_MESSAGE_SAVE_CONFIGURATION_STATUS_MESSAGE, new ConfigurationStatusMessageHandler());
+
         }
 
         static void Main(string[] args)

@@ -70,6 +70,9 @@ namespace SNMS_DataService.Handlers
                 dbGateway.WriteQuery(QueryManager.NewConfigurationVariableQuery(configurationId, variableID, ""));
             }
 
+            // HERE WE ADD THE CONFIGURATION STATUS TO THE NEW CREATED CONFIGURATION
+            dbGateway.WriteQuery(QueryManager.NewConfigurationStatus(configurationId));
+
             reader = dbGateway.ReadQuery(QueryManager.GetSpecificConfigurationQuery(configurationId));
             if (reader == null)
             {
