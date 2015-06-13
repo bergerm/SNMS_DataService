@@ -22,17 +22,30 @@ namespace SNMS_DataService.Handlers
             ProtocolMessage responseMessage = new ProtocolMessage();
             responseMessage.SetMessageType(ProtocolMessageType.PROTOCOL_MESSAGE_LAST_100_LOGS_ANSWER);
 
+            string sComponentFilter = message.GetParameterAsString(0);
+            string sUserNameFilter = message.GetParameterAsString(1);
+            string sLogType = message.GetParameterAsString(2);
+            string sMessage = message.GetParameterAsString(3);
+            string sLink = message.GetParameterAsString(4);
+
             DatabaseGateway dbGateway = DatabaseGateway.Instance(null);
-            MySqlDataReader reader = dbGateway.ReadQuery(QueryManager.GetLastLogsCount());
+            MySqlDataReader reader = dbGateway.ReadQuery(QueryManager.GetLastLogsCount(sComponentFilter,
+                                                                        sUserNameFilter,
+                                                                        sLogType,
+                                                                        sMessage,
+                                                                        sLink));
             
-            // Parameter 1 - number of UserTypes
             reader.Read();
             int dwNumOfUserLogs = Int32.Parse(reader[0].ToString());
             responseMessage.AddParameter(dwNumOfUserLogs);
 
             reader.Close();
 
-            reader = dbGateway.ReadQuery(QueryManager.GetLastLogs());
+            reader = dbGateway.ReadQuery(QueryManager.GetLastLogs(sComponentFilter,
+                                                                        sUserNameFilter,
+                                                                        sLogType,
+                                                                        sMessage,
+                                                                        sLink));
 
             while (reader.Read())
             {
@@ -44,8 +57,8 @@ namespace SNMS_DataService.Handlers
                 responseMessage.AddParameter(sLogComponent);
                 string sLogUserName = reader["LogUserName"].ToString();
                 responseMessage.AddParameter(sLogUserName);
-                string sLogType = reader["LogType"].ToString();
-                responseMessage.AddParameter(sLogType);
+                string sLogTypes = reader["LogType"].ToString();
+                responseMessage.AddParameter(sLogTypes);
                 string sLogMessage = reader["LogMessage"].ToString();
                 responseMessage.AddParameter(sLogMessage);
                 string sLogLink = reader["LogLink"].ToString();

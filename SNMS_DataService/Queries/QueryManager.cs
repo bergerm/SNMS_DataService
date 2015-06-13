@@ -499,14 +499,66 @@ namespace SNMS_DataService.Queries
             return "SELECT ConfigurationID, Status, TIMESTAMPDIFF(SECOND, Time, NOW()) As Expired FROM `configurationstatus`;";
         }
 
-        static public string GetLastLogs()
+        static string FilteredLastLogsString(string sComponentFilter,
+                                            string sUserNameFilter,
+                                            string sLogType,
+                                            string sMessage,
+                                            string sLink)
         {
-            return "SELECT * FROM ( SELECT * FROM `logs` ORDER BY `LogID` DESC LIMIT 100 ) sub ORDER BY `LogID` DESC;";
+            string query = "SELECT * FROM `logs` WHERE 1=1 ";
+
+            if (sComponentFilter != "")
+            {
+                query += " AND `LogComponent` 'LIKE %" + sComponentFilter + "%'";
+            }
+
+            if (sUserNameFilter != "")
+            {
+                query += " AND `LogUserName` LIKE '%" + sUserNameFilter + "%'";
+            }
+
+            if (sLogType != "")
+            {
+                query += " AND `LogType` LIKE '%" + sLogType + "%'";
+            }
+
+            if (sMessage != "")
+            {
+                query += " AND `LogMessage` LIKE '%" + sMessage + "%'";
+            }
+
+            if (sLink != "")
+            {
+                query += " AND `LogLink` LIKE '%" + sLink + "%'";
+            }
+
+            return query + " ORDER BY `LogID` DESC LIMIT 100";
         }
 
-        static public string GetLastLogsCount()
+        static public string GetLastLogs(   string sComponentFilter,
+                                            string sUserNameFilter,
+                                            string sLogType,
+                                            string sMessage,
+                                            string sLink)
         {
-            return "SELECT COUNT(*) FROM ( SELECT * FROM `logs` ORDER BY `LogID` DESC LIMIT 100 ) sub ORDER BY `LogID` DESC;";
+            return "SELECT * FROM ( " + FilteredLastLogsString(sComponentFilter,
+                                                               sUserNameFilter,
+                                                               sLogType,
+                                                               sMessage,
+                                                               sLink) + " ) sub ORDER BY `LogID` DESC;";
+        }
+
+        static public string GetLastLogsCount(  string sComponentFilter,
+                                                string sUserNameFilter,
+                                                string sLogType,
+                                                string sMessage,
+                                                string sLink)
+        {
+            return "SELECT COUNT(*) FROM ( " + FilteredLastLogsString(  sComponentFilter,
+                                                                        sUserNameFilter,
+                                                                        sLogType,
+                                                                        sMessage,
+                                                                        sLink) + " ) sub ORDER BY `LogID` DESC;";
         }
 
         static public string NewPluginVariable(int dwPluginID, string sVariableName, string sVariableType)
